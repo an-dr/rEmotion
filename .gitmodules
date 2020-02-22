@@ -1,0 +1,3 @@
+[submodule "software/lib/zakhar_faces"]
+	path = software/lib/zakhar_faces
+	url = ../zakhar_faces.git
