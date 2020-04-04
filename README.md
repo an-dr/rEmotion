@@ -8,4 +8,4 @@ Zakhar's part which is responsible for facial expressions
 ## Current connection
 ![](docs/current_connection.png)
 
-[Current connection in Fritzing](schematic\current_connection.fzz)
+[Current connection in Fritzing](schematic/current_connection.fzz)
