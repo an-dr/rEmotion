@@ -48,8 +48,8 @@ void loop(void) {
     do {
         u8g2.drawXBMP(0, 0, FACE_WIDTH, FACE_HEIGHT, zk_blink_bits);
     } while (u8g2.nextPage());
-    _delay_ms(200);
+    _delay_ms(100);
 
-    u8g2.clearDisplay();
+    // u8g2.clearDisplay();
     // _delay_ms(300);/*  */
 }
