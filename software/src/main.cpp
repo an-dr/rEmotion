@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 #include "zakhar_faces.h"
+#include "pinout.h"
 
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -15,7 +16,11 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
 #if KS0108_128X64
-U8G2_KS0108_128X64_F u8g2(U8G2_R2, 3, 4, 5, 6, 7, 8, 9, 10, /*enable=*/A0, /*dc=*/A2, /*cs0=*/A5, /*cs1=*/A4, /*cs2=*/U8X8_PIN_NONE, /* reset=*/A3); // Set R/W to low!
+U8G2_KS0108_128X64_F u8g2(U8G2_R2,  LCD_D0, LCD_D1, LCD_D2, LCD_D3,
+                                    LCD_D4, LCD_D5, LCD_D6, LCD_D7,
+                                    /*enable=*/LCD_E, /*dc=*/LCD_DC,
+                                    /*cs0=*/LCD_CS0, /*cs1=*/LCD_CS1,
+                                    /*cs2=*/U8X8_PIN_NONE, /* reset=*/LCD_RESET); // Set R/W to low!
 #endif
 // End of constructor list
 
@@ -23,8 +28,8 @@ void setup(void) {
 
 #if KS0108_128X64
     /* U8g2 Project: KS0108 Test Board */
-    pinMode(A1, OUTPUT);
-    digitalWrite(A1, 0);
+    pinMode(LCD_RW, OUTPUT);
+    digitalWrite(LCD_RW, 0);
 #endif
     u8g2.begin();
 }
