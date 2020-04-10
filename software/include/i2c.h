@@ -11,5 +11,9 @@
 
 #include "I2cWithRegs.h"
 
+#define REG_CMD 0
+#define REG_MODE 1
 extern I2cWithRegs i2c;
 void i2c_init(void);
+void i2c_reqEv();
+void i2c_rcvEv(int howMany);

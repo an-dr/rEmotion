@@ -25,6 +25,8 @@ void display_init(void) {
     digitalWrite(LCD_RW, 0);
 #endif
     u8g2.begin();
+
+    display_blink();
 }
 
 static void set_face(const uint8_t *face) {
@@ -98,5 +100,22 @@ void blinking(void) {
     set_face(zk_calm);
     _delay_ms(2000);
     set_face(zk_blink);
-    _delay_ms(300);
+    _delay_ms(100);
+}
+
+
+void greeting(void) {
+    set_face(zk_calm);
+    _delay_ms(200);
+    set_face(zk_blink);
+    _delay_ms(100);
+    set_face(zk_calm);
+    _delay_ms(200);
+    set_face(zk_blink);
+    _delay_ms(100);
+    set_face(zk_calm);
+    _delay_ms(200);
+    set_face(zk_happy);
+    _delay_ms(2000);
+    set_face(zk_blink);
 }

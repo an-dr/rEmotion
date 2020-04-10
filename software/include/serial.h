@@ -10,11 +10,9 @@
 //
 // *************************************************************************
 
-#include "ControlCallbacks.h"
+#pragma once
 
-#define SIZE_ARR(x) (sizeof(x) / sizeof(x[0]))
+#include <Arduino.h>
 
-extern int cmd;
-extern Connection_t connection[5];
-extern ControlCallbacks Cc;
-void control_poll();
+void serial_poll(void);
+void serial_init(void);

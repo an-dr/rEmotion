@@ -29,6 +29,12 @@ extern U8G2_KS0108_128X64_F u8g2;
 #endif
 
 void display_init(void);
+void display_sad();
+void display_happy();
+void display_angry();
+void display_blink();
+void display_calm();
+void greeting(void);
 void blinking(void);
 void demo(void);
 
