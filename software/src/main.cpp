@@ -10,5 +10,6 @@ void setup(void) {
 }
 
 void loop(void) {
-    blinking();
+    // blinking();
+    demo();
 }

@@ -30,4 +30,5 @@ extern U8G2_KS0108_128X64_F u8g2;
 
 void display_init(void);
 void blinking(void);
+void demo(void);
 

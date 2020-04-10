@@ -11,10 +11,10 @@
 // *************************************************************************
 
 #include "controlcallback.h"
-// #include "common_config.h"
+#include "common_config.h"
 
 #define NO_CMD (-1)
-default
+// default
 
 int cmd;
 
