@@ -1,0 +1,9 @@
+[submodule "software/lib/zakhar_faces"]
+	path = software/lib/zakhar_faces
+	url = git@github.com:an-dr/zakhar_faces.git
+[submodule "software/lib/arduino_i2c_with_regs"]
+	path = software/lib/arduino_i2c_with_regs
+	url = git@github.com:an-dr/arduino_i2c_with_regs.git
+[submodule "software/lib/ControlCallbacks"]
+	path = software/lib/ControlCallbacks
+	url = git@github.com:an-dr/ControlCallbacks.git
