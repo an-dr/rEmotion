@@ -12,11 +12,16 @@ U8G2_KS0108_128X64_F u8g2(U8G2_R2, LCD_D0, LCD_D1, LCD_D2, LCD_D3,
                           /*cs2=*/U8X8_PIN_NONE, /* reset=*/LCD_RESET); // Set R/W to low!
 #endif
 
-const uint8_t zk_calm[] PROGMEM = ZK_CALM;
-const uint8_t zk_blink[] PROGMEM = ZK_BLINK;
-const uint8_t zk_angry[] PROGMEM = ZK_ANGRY;
-const uint8_t zk_happy[] PROGMEM = ZK_HAPPY;
-const uint8_t zk_sad[] PROGMEM = ZK_SAD;
+const uint8_t face_calm[] PROGMEM = UNIFACE_CALM;
+const uint8_t face_blink[] PROGMEM = UNIFACE_BLINK;
+const uint8_t face_angry[] PROGMEM = UNIFACE_ANGRY;
+const uint8_t face_happy[] PROGMEM = UNIFACE_HAPPY;
+const uint8_t face_sad[] PROGMEM = UNIFACE_SAD;
+const uint8_t face_dunno[] PROGMEM = UNIFACE_DUNNO;
+const uint8_t face_confused[] PROGMEM = UNIFACE_CONFUSED;
+const uint8_t face_thinking1[] PROGMEM = UNIFACE_THINKING1;
+const uint8_t face_thinking2[] PROGMEM = UNIFACE_THINKING2;
+const uint8_t face_thinking3[] PROGMEM = UNIFACE_THINKING3;
 
 void display_init(void) {
 #if KS0108_128X64
@@ -26,31 +31,31 @@ void display_init(void) {
 #endif
     u8g2.begin();
 
-    display_blink();
+    // display_blink();
 }
 
 static void set_face(const uint8_t *face) {
     u8g2.firstPage();
     do {
-        u8g2.drawXBMP(0, 0, FACE_WIDTH, FACE_HEIGHT, face);
+        u8g2.drawXBMP(0, 0, UNIFACE_WIDTH, UNIFACE_HEIGHT, face);
     } while (u8g2.nextPage());
 }
 
 void display_calm() {
-    set_face(zk_calm);
+    set_face(face_calm);
 }
 
 void display_blink() {
-    set_face(zk_blink);
+    set_face(face_blink);
 }
 void display_angry() {
-    set_face(zk_angry);
+    set_face(face_angry);
 }
 void display_happy() {
-    set_face(zk_happy);
+    set_face(face_happy);
 }
 void display_sad() {
-    set_face(zk_sad);
+    set_face(face_sad);
 }
 
 
@@ -97,25 +102,29 @@ void demo(void)
 }
 
 void blinking(void) {
-    set_face(zk_calm);
-    _delay_ms(2000);
-    set_face(zk_blink);
-    _delay_ms(100);
+    set_face(face_calm);
+    _delay_ms(3000);
+    set_face(face_blink);
+    _delay_ms(10);
 }
 
 
 void greeting(void) {
-    set_face(zk_calm);
+    set_face(face_thinking1);
+    _delay_ms(300);
+    set_face(face_thinking2);
+    _delay_ms(300);
+    set_face(face_thinking3);
+    _delay_ms(300);
+    set_face(face_blink);
+    _delay_ms(300);
+    set_face(face_calm);
     _delay_ms(200);
-    set_face(zk_blink);
+    set_face(face_blink);
     _delay_ms(100);
-    set_face(zk_calm);
-    _delay_ms(200);
-    set_face(zk_blink);
-    _delay_ms(100);
-    set_face(zk_calm);
-    _delay_ms(200);
-    set_face(zk_happy);
+    set_face(face_calm);
+    _delay_ms(1000);
+    set_face(face_happy);
     _delay_ms(2000);
-    set_face(zk_blink);
+    set_face(face_calm);
 }
