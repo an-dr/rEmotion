@@ -20,7 +20,8 @@ void setup(void) {
 void loop(void) {
     // blinking();
     // demo();
+    // blinking();
     serial_poll();
     control_poll();
-    i2c.Print();
+    // i2c.Print();
 }

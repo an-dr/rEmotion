@@ -16,12 +16,15 @@
 #include "display.h"
 
 
-Connection_t connection[5] = {
+Connection_t connection[8] = {
     {.cmd_code = CMD_CALM, .func = display_calm},
     {.cmd_code = CMD_BLINK, .func = display_blink},
     {.cmd_code = CMD_ANGRY, .func = display_angry},
     {.cmd_code = CMD_HAPPY, .func = display_happy},
     {.cmd_code = CMD_SAD, .func = display_sad},
+    {.cmd_code = CMD_DUNNO, .func = display_dunno},
+    {.cmd_code = CMD_CONFUSED, .func = display_confused},
+    {.cmd_code = CMD_THINKING, .func = display_thinking}
 };
 
 ControlCallbacks Cc;

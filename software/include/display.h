@@ -12,7 +12,7 @@
 #include <Arduino.h>
 
 #include "pinout.h"
-#include "zakhar_faces.h"
+#include "unifaces.h"
 #include <U8g2lib.h>
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -34,6 +34,9 @@ void display_happy();
 void display_angry();
 void display_blink();
 void display_calm();
+void display_dunno();
+void display_confused();
+void display_thinking();
 void greeting(void);
 void blinking(void);
 void demo(void);
