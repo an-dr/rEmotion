@@ -58,6 +58,24 @@ void display_sad() {
     set_face(face_sad);
 }
 
+void display_dunno() {
+    set_face(face_dunno);
+}
+
+void display_confused() {
+    set_face(face_confused);
+}
+
+void display_thinking() {
+    set_face(face_thinking1);
+    _delay_ms(500);
+    set_face(face_thinking2);
+    _delay_ms(500);
+    set_face(face_thinking3);
+    _delay_ms(500);
+    
+}
+
 
 void demo(void)
 {
