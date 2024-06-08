@@ -16,9 +16,28 @@
 
 #include "Remotion.hpp"
 
-RemotionError Remotion::start(std::string port_name, int video_source)
+const RemotionStatus Remotion::start(const std::string &port_name, int video_source)
 {
-    return RemotionError();
+    _port_name = port_name;
+    _video_source = video_source;
+    
+    _cap.open(_video_source);
+    if (!_cap.isOpened())
+    {
+        _status.cameraError = RemotionError::ERROR_OPEN_PORT;
+    }
+    
+    _serialPort.SetDevice(_port_name);
+    _serialPort.SetBaudRate(mn::CppLinuxSerial::BaudRate::B_9600);
+    _serialPort.SetParity(mn::CppLinuxSerial::Parity::NONE);
+    _serialPort.SetNumStopBits(mn::CppLinuxSerial::NumStopBits::ONE);
+    _serialPort.SetNumDataBits(mn::CppLinuxSerial::NumDataBits::EIGHT);
+    _serialPort.SetTimeout(100);
+    _serialPort.Open();
+    
+    _serialPort.Write("3"); // tmp
+    
+    return getStatus();
 }
 
 cv::Mat Remotion::readImage(RemotionError *error_buff)
@@ -32,7 +51,7 @@ RemotionError Remotion::setExpression(RemotionExpression exp)
     return RemotionError();
 }
 
-RemotionStatus Remotion::getStatus()
+RemotionStatus Remotion::getStatus() const
 {
-    return RemotionStatus();
+    return _status;
 }

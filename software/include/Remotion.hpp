@@ -20,15 +20,15 @@
 class Remotion
 {
 public:
-    RemotionError start(std::string port_name, int video_source);
+    const RemotionStatus start(const std::string &port_name, int video_source);
     cv::Mat readImage(RemotionError *error_buff = nullptr);
     RemotionError setExpression(RemotionExpression exp);
-    RemotionStatus getStatus();
+    RemotionStatus getStatus() const;
 
 private:
-    mn::CppLinuxSerial::SerialPort *serialPort;
-    RemotionStatus status;
-    std::string port_name;
-    int video_source;
-    cv::VideoCapture cap;
+    mn::CppLinuxSerial::SerialPort _serialPort = mn::CppLinuxSerial::SerialPort();
+    RemotionStatus _status = RemotionStatus();
+    std::string _port_name = "";
+    int _video_source = -1;
+    cv::VideoCapture _cap = cv::VideoCapture();
 };

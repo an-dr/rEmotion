@@ -11,6 +11,7 @@
 
 enum class RemotionError {
     NO_ERROR,
+    ERROR,
     ERROR_OPEN_PORT,
     ERROR_READ_PORT,
     ERROR_WRITE_PORT,

@@ -31,7 +31,7 @@ register_components(
 
 add_main_component(${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
-# target_link_libraries(${PROJECT_NAME} PRIVATE CppLinuxSerial::CppLinuxSerial)
+target_link_libraries(${PROJECT_NAME} PRIVATE CppLinuxSerial::CppLinuxSerial)
 target_link_components(
     ${PROJECT_NAME} NAME remotion_ctrl
     # microlog
