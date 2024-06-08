@@ -1,0 +1,173 @@
+{
+    "folders": [
+        {
+            "path": ".",
+            "name": "software"
+        },
+        {
+            "path": "..",
+            "name": "rEmorion"
+        }
+    ],
+    "settings": {},
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Debug - VisionerFile",
+                "type": "cppdbg",
+                "request": "launch",
+                "program": "${workspaceFolder}/install/VisionerFile/VisionerFile",
+                "miDebuggerPath": "gdb",
+                "args": [],
+                "stopAtEntry": false,
+                "cwd": "${workspaceFolder}/install/VisionerFile",
+                "preLaunchTask": "Install",
+                "setupCommands": [
+                    { // Display content in STL containers pretty
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "GTK_PATH",
+                        "value": ""
+                    }
+                ]
+            }
+        ],
+        "compounds": []
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            // Cmake build
+            {
+                "label": "Build",
+                "type": "shell",
+                "command": "cmake",
+                "args": [
+                    "--build",
+                    "${workspaceFolder}/build"
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "problemMatcher": [],
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared",
+                    "showReuseMessage": true,
+                    "clear": false
+                },
+                "dependsOn": "Configure"
+            },
+            {
+                "label": "Configure",
+                "type": "shell",
+                "command": "cmake",
+                "args": [
+                    "-G",
+                    "Ninja",
+                    "-B",
+                    "${workspaceFolder}/build",
+                    "-DCMAKE_BUILD_TYPE=${input:Build}",
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "options": {
+                    "env": {
+                        "ABCMAKE_EMOJI": "1"
+                    }
+                },
+                "problemMatcher": [],
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared",
+                    "showReuseMessage": true,
+                    "clear": false
+                },
+            },
+            // Cmake clean
+            {
+                "label": "Clean",
+                "type": "shell",
+                "command": "cmake",
+                "args": [
+                    "--build",
+                    "${workspaceFolder}/build",
+                    "--target",
+                    "clean"
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "problemMatcher": [],
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared",
+                    "showReuseMessage": true,
+                    "clear": false
+                },
+            },
+            // Install to workspace/install
+            {
+                "label": "Install",
+                "type": "shell",
+                "command": "cmake",
+                "args": [
+                    "--install",
+                    "${workspaceFolder}/build",
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "problemMatcher": [],
+                "dependsOn": "Build"
+            },
+            {
+                "label": "Test",
+                "type": "shell",
+                "command": "ctest",
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                },
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "problemMatcher": [],
+                "dependsOn": "Build"
+            }
+        ],
+        "inputs": [
+            {
+                "type": "pickString",
+                "id": "Build",
+                "description": "Select build type",
+                "default": "Debug",
+                "options": [
+                    {
+                        "value": "Debug",
+                    },
+                    {
+                        "value": "Release",
+                    }
+                ]
+            }
+        ]
+    }
+}

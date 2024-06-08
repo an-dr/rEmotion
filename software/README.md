@@ -6,3 +6,7 @@ Visioner implementation based on reading images from `input` folder and reading 
 - `input/object_bad_*` - image of an object for negative response
 
 In theory, reads all major image formats, but tested only with `jpg` and `png`.
+
+## Requirements
+
+- libgtest-dev
