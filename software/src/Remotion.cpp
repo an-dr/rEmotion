@@ -8,6 +8,7 @@
 // *************************************************************************
 #include <string>
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/mat.hpp>
 
 #include "RemotionError.hpp"
 #include "RemotionExpression.hpp"
@@ -22,7 +23,8 @@ RemotionError Remotion::start(std::string port_name, int video_source)
 
 cv::Mat Remotion::readImage(RemotionError *error_buff)
 {
-    return cv::Mat();
+    auto img = cv::Mat();
+    return img;
 }
 
 RemotionError Remotion::setExpression(RemotionExpression exp)

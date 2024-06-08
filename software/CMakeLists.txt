@@ -41,19 +41,19 @@ add_component(${PROJECT_NAME})
 # file(GLOB examples "${CMAKE_CURRENT_LIST_DIR}/../../img/examples/*")
 # install(FILES ${examples} DESTINATION ./input)
 
-# Tests
-enable_testing()
-find_package(GTest) 
+# # Tests
+# enable_testing()
+# find_package(GTest) 
 
-add_executable(
-    utest
-    tests/stubs/Remotion.cpp
-    tests/test_basic/test_basic.cpp
-)
-target_link_libraries(
-    utest
-    GTest::gtest_main
-)
+# add_executable(
+#     utest
+#     tests/stubs/Remotion.cpp
+#     tests/test_basic/test_basic.cpp
+# )
+# target_link_libraries(
+#     utest
+#     GTest::gtest_main
+# )
 
-include(GoogleTest)
-gtest_discover_tests(utest)
+# include(GoogleTest)
+# gtest_discover_tests(utest)

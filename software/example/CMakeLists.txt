@@ -22,20 +22,20 @@ set(BUILD_TESTS
 # Add abcmake
 include(../ab.cmake)
 
-# register_components(
-#     ${CMAKE_CURRENT_LIST_DIR}/../common_components/microlog
+register_components(
+    ${CMAKE_CURRENT_LIST_DIR}/..
 #     ${CMAKE_CURRENT_LIST_DIR}/../common_components/visioner_interfaces
 #     ${CMAKE_CURRENT_LIST_DIR}/../common_components/visioner_app
 #     ${CMAKE_CURRENT_LIST_DIR}/../common_components/SceneReaderWebcam
-# )
+)
 
 add_main_component(${PROJECT_NAME})
-# target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 # target_link_libraries(${PROJECT_NAME} PRIVATE CppLinuxSerial::CppLinuxSerial)
-# target_link_components(
-    # ${PROJECT_NAME} NAME SceneReaderWebcam visioner_interfaces visioner_app
+target_link_components(
+    ${PROJECT_NAME} NAME remotion_ctrl
     # microlog
-# )
+)
 
 # Install
 # file(GLOB examples "${CMAKE_CURRENT_LIST_DIR}/../../img/examples/*")
