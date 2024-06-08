@@ -71,8 +71,22 @@ For the communication between the library and the webcam, the OpenCV library is 
 
 ### 1.5.5 System Conditions
 
-TBD. Overall system conditions, e.g. Normal Operation, Fail State, etc.
+The system states are defined in the system library and represented by a composition of two states - the display state and the camera state. The camera states:
+
+- Camera: Normal Operation
+- Camera: Error
+
+The display states are represented by the facial expression and an error state:
+
+- Display: Calm
+- Display: Happy
+- Display: Sad
+- Display: Angry
+- ...
+- Display: Error
+
+Example of the state: `Camera: Error, Display: Sad`
 
 ### 1.5.6 Operational Logic
 
-TBD. High level logic of the system, how the software comonets and the hardware components work with the users and in what conditions.
+TBD
