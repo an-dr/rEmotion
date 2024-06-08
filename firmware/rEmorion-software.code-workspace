@@ -1,8 +1,13 @@
 {
 	"folders": [
 		{
-			"path": "."
-		}
+			"path": ".",
+            "name": "software"
+		},
+        {
+            "path": "..",
+            "name": "rEmorion"
+        }
     ],
     "settings": {},
     "extensions": {
