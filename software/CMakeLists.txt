@@ -30,8 +30,8 @@ include(ab.cmake)
 # )
 
 add_component(${PROJECT_NAME})
-# target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
-# target_link_libraries(${PROJECT_NAME} PRIVATE CppLinuxSerial::CppLinuxSerial)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE CppLinuxSerial::CppLinuxSerial)
 # target_link_components(
     # ${PROJECT_NAME} NAME SceneReaderWebcam visioner_interfaces visioner_app
     # microlog

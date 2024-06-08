@@ -7,3 +7,6 @@
 [submodule "software/lib/universal_faces"]
 	path = firmware/lib/universal_faces
 	url = https://github.com/an-dr/universal_faces.git
+[submodule "software/components/CppLinuxSerial"]
+	path = software/components/CppLinuxSerial
+	url = https://github.com/gbmhunter/CppLinuxSerial.git

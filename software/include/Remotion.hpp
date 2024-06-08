@@ -12,6 +12,7 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 
+#include "CppLinuxSerial/SerialPort.hpp"
 #include "RemotionError.hpp"
 #include "RemotionExpression.hpp"
 #include "RemotionStatus.hpp"
@@ -23,8 +24,9 @@ public:
     cv::Mat readImage(RemotionError *error_buff = nullptr);
     RemotionError setExpression(RemotionExpression exp);
     RemotionStatus getStatus();
-    
+
 private:
+    mn::CppLinuxSerial::SerialPort *serialPort;
     RemotionStatus status;
     std::string port_name;
     int video_source;
