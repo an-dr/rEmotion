@@ -50,8 +50,11 @@
                 "command": "cmake",
                 "args": [
                     "--build",
-                    "${workspaceFolder}/build"
+                    "build"
                 ],
+                "options": {
+                    "cwd": "${input:Project}"
+                },
                 "group": {
                     "kind": "build",
                     "isDefault": true
@@ -75,7 +78,7 @@
                     "-G",
                     "Ninja",
                     "-B",
-                    "${workspaceFolder}/build",
+                    "build",
                     "-DCMAKE_BUILD_TYPE=${input:Build}",
                 ],
                 "group": {
@@ -83,6 +86,7 @@
                     "isDefault": true
                 },
                 "options": {
+                    "cwd": "${input:Project}",
                     "env": {
                         "ABCMAKE_EMOJI": "1"
                     }
@@ -104,13 +108,16 @@
                 "command": "cmake",
                 "args": [
                     "--build",
-                    "${workspaceFolder}/build",
+                    "build",
                     "--target",
                     "clean"
                 ],
                 "group": {
                     "kind": "build",
                     "isDefault": true
+                },
+                "options": {
+                    "cwd": "${input:Project}"
                 },
                 "problemMatcher": [],
                 "presentation": {
@@ -129,8 +136,11 @@
                 "command": "cmake",
                 "args": [
                     "--install",
-                    "${workspaceFolder}/build",
+                    "build",
                 ],
+                "options": {
+                    "cwd": "${input:Project}"
+                },
                 "group": {
                     "kind": "build",
                     "isDefault": true
@@ -156,6 +166,22 @@
         "inputs": [
             {
                 "type": "pickString",
+                "id": "Project",
+                "description": "What to build",
+                "default": ".",
+                "options": [
+                    {
+                        "value": "${workspaceFolder}/example",
+                        "label": "Example Application"
+                    },
+                    {
+                        "value": "${workspaceFolder}",
+                        "label": "Library"
+                    }
+                ]
+            },
+            {
+                "type": "pickString",
                 "id": "Build",
                 "description": "Select build type",
                 "default": "Debug",
@@ -168,6 +194,7 @@
                     }
                 ]
             }
+
         ]
     }
 }
