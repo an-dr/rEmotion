@@ -1,27 +1,37 @@
-#include <Arduino.h>
-#include "pinout.h"
-#include "display.h"
-#include "i2c.h"
-#include "serial.h"
-#include "printf.h"
-#include "controlcallback.h"
+// *************************************************************************
+//
+// Copyright (c) 2024 Andrei Gramakov. All rights reserved.
+//
+// This file is licensed under the terms of the MIT license.
+// For a copy, see: https://opensource.org/licenses/MIT
+//
+// site:    https://agramakov.me
+// e-mail:  mail@agramakov.me
+//
+// *************************************************************************
 
+#include "AppVisioner.hpp"
+#include "FaceRemotion.hpp"
+#include "InputFiles.hpp"
+#include "SceneReaderWebcam.hpp"
+#include "ulog.h"
 
-void setup(void) {
-    printf_init();
-    display_init();
-    i2c.Init(0x2c, 16, (void *)i2c_reqEv, (void *)i2c_rcvEv);
-    Cc.Init(connection,SIZE_ARR(connection));
-    serial_init();
+int main(int argc, char **argv) {
 
-    greeting();
-}
+    ulog_set_level(LOG_INFO);
+    InputFiles input;
+    FaceRemotion face("/dev/ttyUSB0", 9600);
+    SceneReaderWebcam scene_input;
 
-void loop(void) {
-    // blinking();
-    // demo();
-    // blinking();
-    serial_poll();
-    control_poll();
-    // i2c.Print();
+    input.LoadFiles("input");
+
+    AppVisioner app(&face, &input, &scene_input);
+    app.Intro();
+
+    // Until the face is not exiting
+    int result = 0;
+    while (1) {
+        result = app.RunOnce(true, true);
+    }
+    return 0;
 }

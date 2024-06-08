@@ -1,9 +1,9 @@
 [submodule "software/lib/arduino_i2c_with_regs"]
-	path = software/lib/arduino_i2c_with_regs
+	path = firmware/lib/arduino_i2c_with_regs
 	url = git@github.com:an-dr/arduino_i2c_with_regs.git
 [submodule "software/lib/ControlCallbacks"]
-	path = software/lib/ControlCallbacks
+	path = firmware/lib/ControlCallbacks
 	url = git@github.com:an-dr/ControlCallbacks.git
 [submodule "software/lib/universal_faces"]
-	path = software/lib/universal_faces
+	path = firmware/lib/universal_faces
 	url = https://github.com/an-dr/universal_faces.git
