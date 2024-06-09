@@ -7,6 +7,7 @@
 //
 // *************************************************************************
 #include <string>
+#include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
 
@@ -21,11 +22,20 @@ const RemotionStatus Remotion::start(const std::string &port_name, int video_sou
     _port_name = port_name;
     _video_source = video_source;
     
-    _cap.open(_video_source);
-    if (!_cap.isOpened())
+        
+    for (_video_source; _video_source < _video_source + 3; _video_source++)
     {
-        _status.cameraError = RemotionError::ERROR_OPEN_PORT;
+        _cap.open(_video_source);
+        if (!_cap.isOpened())
+        {
+            _status.cameraError = RemotionError::ERROR_OPEN_PORT;
+            printf("Error: Could not open video stream n %d\n", _video_source);
+        } else {
+            _status.cameraError = RemotionError::NO_ERROR;
+            break;
+        }
     }
+
     
     _serialPort.SetDevice(_port_name);
     _serialPort.SetBaudRate(mn::CppLinuxSerial::BaudRate::B_9600);
@@ -43,11 +53,31 @@ const RemotionStatus Remotion::start(const std::string &port_name, int video_sou
 cv::Mat Remotion::readImage(RemotionError *error_buff)
 {
     auto img = cv::Mat();
+    if (!_cap.isOpened())  // check if we succeeded
+        throw std::runtime_error("Could not open video stream");
+    _cap >> img;
     return img;
 }
 
 RemotionError Remotion::setExpression(RemotionExpression exp)
 {
+    switch (exp)
+    {
+    case RemotionExpression::HAPPY:
+        _serialPort.Write("1");
+        break;
+    case RemotionExpression::CALM:
+        _serialPort.Write("2");
+        break;
+    case RemotionExpression::SAD:
+        _serialPort.Write("3");
+        break;
+    case RemotionExpression::ANGRY:
+        _serialPort.Write("4");
+        break;
+    default:
+        break;
+    }
     return RemotionError();
 }
 

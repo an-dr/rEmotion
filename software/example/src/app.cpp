@@ -18,14 +18,15 @@ int main(int argc, char const *argv[])
     
     while (true)
     {
-        auto img = r.readImage(nullptr);
-        cv::imshow("img", img);
-        sleep(1);
-        
         r.setExpression(RemotionExpression::HAPPY);
         sleep(1);
         r.setExpression(RemotionExpression::CALM);
         sleep(1);
+        
+        // auto img = r.readImage(nullptr);
+        // cv::imshow("img", img);
+        // sleep(1);
+        
         
     }
     

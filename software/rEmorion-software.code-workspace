@@ -14,14 +14,14 @@
         "version": "0.2.0",
         "configurations": [
             {
-                "name": "Debug - VisionerFile",
+                "name": "Debug - Example App",
                 "type": "cppdbg",
                 "request": "launch",
-                "program": "${workspaceFolder}/install/VisionerFile/VisionerFile",
+                "program": "${workspaceFolder:software}/example/install/remotion_demo_app",
+                "cwd": ".",
                 "miDebuggerPath": "gdb",
                 "args": [],
                 "stopAtEntry": false,
-                "cwd": "${workspaceFolder}/install/VisionerFile",
                 "preLaunchTask": "Install",
                 "setupCommands": [
                     { // Display content in STL containers pretty
