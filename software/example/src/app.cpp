@@ -7,6 +7,7 @@
 //
 // *************************************************************************
 
+#include <opencv2/imgcodecs.hpp>
 #include <unistd.h>
 #include <opencv2/opencv.hpp>
 #include "Remotion.hpp"
@@ -23,9 +24,10 @@ int main(int argc, char const *argv[])
         r.setExpression(RemotionExpression::CALM);
         sleep(1);
         
-        // auto img = r.readImage(nullptr);
-        // cv::imshow("img", img);
-        // sleep(1);
+        auto img = r.readImage(nullptr);
+        cv::imwrite("img.jpg" , img);
+        cv::imshow("img", img);
+        cv::waitKey(1);
         
         
     }

@@ -18,7 +18,7 @@
                 "type": "cppdbg",
                 "request": "launch",
                 "program": "${workspaceFolder:software}/example/install/remotion_demo_app",
-                "cwd": ".",
+                "cwd": "${workspaceFolder:software}",
                 "miDebuggerPath": "gdb",
                 "args": [],
                 "stopAtEntry": false,
@@ -171,11 +171,11 @@
                 "default": ".",
                 "options": [
                     {
-                        "value": "${workspaceFolder}/example",
+                        "value": "./example",
                         "label": "Example Application"
                     },
                     {
-                        "value": "${workspaceFolder}",
+                        "value": ".",
                         "label": "Library"
                     }
                 ]
