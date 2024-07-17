@@ -16,6 +16,7 @@
 #include "RemotionError.hpp"
 #include "RemotionExpression.hpp"
 #include "RemotionStatus.hpp"
+#include "V4l2Capture.h"
 
 class Remotion {
  public:
@@ -31,31 +32,34 @@ class Remotion {
     /// @param video_source - video source number
     /// @return RemotionStatus
     const RemotionStatus start(const std::string &port_name, int video_source);
-    
+
     /// @brief Stop Remotion camera
     void stop();
-    
+
     /// @brief Read image from camera
     /// @param error_buff - error buffer
     /// @return  cv::Mat
     cv::Mat readImage(RemotionError *error_buff = nullptr);
-    
+
     /// @brief Set expression
     /// @param exp - expression
     /// @return RemotionError
     RemotionError setExpression(RemotionExpression exp);
-    
+
     /// @brief Get status
     /// @return RemotionStatus
     [[nodiscard]] RemotionStatus getStatus() const;
 
  private:
     constexpr static int SERIAL_PORT_TIMEOUT = 100;
- 
+
     RemotionError tryToOpenCamera();
+    RemotionError createVideoCapture(std::string &device, int width, int height,
+                                     int fps);
 
     mn::CppLinuxSerial::SerialPort _serialPort =
         mn::CppLinuxSerial::SerialPort();
+    V4l2Capture *_videoCapture = nullptr;
     RemotionStatus _status = RemotionStatus();
     std::string _port_name = "";
     int _video_source = -1;

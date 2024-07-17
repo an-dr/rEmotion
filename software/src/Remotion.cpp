@@ -11,9 +11,11 @@
 #include <opencv2/core/mat.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "CppLinuxSerial/SerialPort.hpp"
 #include "RemotionError.hpp"
 #include "RemotionExpression.hpp"
 #include "RemotionStatus.hpp"
+#include "V4l2Capture.h"
 
 #include "Remotion.hpp"
 
@@ -92,4 +94,23 @@ RemotionError Remotion::tryToOpenCamera() {
         _status.cameraError = RemotionError::NO_ERROR;
     }
     return _status.cameraError;
+}
+
+RemotionError Remotion::createVideoCapture(std::string &device, int width,
+                                           int height, int fps) {
+    return RemotionError();
+}
+
+RemotionError Remotion::createVideoCapture(std::string &device, int width,
+                                           int height, int fps) {
+    V4L2DeviceParameters param(device, V4L2_PIX_FMT_VP8, width, height, fps,
+                               IOTYPE_READWRITE, 0);
+    _videoCapture = V4l2Capture::create(param);
+    if (_videoCapture == NULL)
+	{	
+		// LOG(WARN) << "Cannot reading from V4L2 capture interface for device:" << in_devname; 
+        return RemotionError::ERROR_OPEN_PORT;
+	}
+    return RemotionError::NO_ERROR;
+    
 }

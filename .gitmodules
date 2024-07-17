@@ -10,3 +10,6 @@
 [submodule "software/components/CppLinuxSerial"]
 	path = software/components/CppLinuxSerial
 	url = https://github.com/gbmhunter/CppLinuxSerial.git
+[submodule "software/components/libv4l2cpp"]
+	path = software/components/libv4l2cpp
+	url = https://github.com/an-dr/libv4l2cpp.git
