@@ -1,0 +1,36 @@
+# *************************************************************************
+#
+# Copyright (c) 2024 Andrei Gramakov. All rights reserved.
+#
+# site:    https://agramakov.me
+# e-mail:  mail@agramakov.me
+#
+#
+# This file is a part of a template:
+# - https://github.com/an-dr/hello_world_cpp
+# 
+# Official reference: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+# GUI configuration tool: https://clang-format-configurator.site
+# *************************************************************************
+
+Language: Cpp
+BasedOnStyle: LLVM
+SpacesBeforeTrailingComments: 2
+IndentWidth: 4
+AccessModifierOffset: -3
+SortIncludes: true
+ColumnLimit: 80
+IncludeBlocks: Preserve
+IncludeCategories:
+  - Regex: '^<.*\.h>'
+    Priority: 2
+  - Regex: '^<.*\.hpp>'
+    Priority: 2
+  - Regex: '^<.*>'
+    Priority: 1
+  - Regex: '^".*\.h"'
+    Priority: 4
+  - Regex: '^".*"'
+    Priority: 4
+  - Regex: '.*'
+    Priority: 5

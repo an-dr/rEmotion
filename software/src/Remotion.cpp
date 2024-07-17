@@ -6,10 +6,10 @@
 // e-mail:  mail@agramakov.me
 //
 // *************************************************************************
+#include <cstdio>
 #include <string>
-#include <stdio.h>
-#include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
+#include <opencv2/opencv.hpp>
 
 #include "RemotionError.hpp"
 #include "RemotionExpression.hpp"
@@ -17,26 +17,22 @@
 
 #include "Remotion.hpp"
 
-Remotion::~Remotion() {
-    stop();
-}
+Remotion::~Remotion() { stop(); }
 
 const RemotionStatus Remotion::start(const std::string &port_name,
                                      int video_source) {
-  _port_name = port_name;
-  _video_source = video_source;
+    _port_name = port_name;
+    _video_source = video_source;
 
-  _serialPort.SetDevice(_port_name);
-  _serialPort.SetBaudRate(mn::CppLinuxSerial::BaudRate::B_9600);
-  _serialPort.SetParity(mn::CppLinuxSerial::Parity::NONE);
-  _serialPort.SetNumStopBits(mn::CppLinuxSerial::NumStopBits::ONE);
-  _serialPort.SetNumDataBits(mn::CppLinuxSerial::NumDataBits::EIGHT);
-  _serialPort.SetTimeout(100);
-  _serialPort.Open();
+    _serialPort.SetDevice(_port_name);
+    _serialPort.SetBaudRate(mn::CppLinuxSerial::BaudRate::B_9600);
+    _serialPort.SetParity(mn::CppLinuxSerial::Parity::NONE);
+    _serialPort.SetNumStopBits(mn::CppLinuxSerial::NumStopBits::ONE);
+    _serialPort.SetNumDataBits(mn::CppLinuxSerial::NumDataBits::EIGHT);
+    _serialPort.SetTimeout(SERIAL_PORT_TIMEOUT);
+    _serialPort.Open();
 
-  _serialPort.Write("3"); // tmp
-
-  return getStatus();
+    return getStatus();
 }
 
 void Remotion::stop() {
@@ -44,8 +40,7 @@ void Remotion::stop() {
     _cap.release();
 }
 
-cv::Mat Remotion::readImage(RemotionError *error_buff)
-{
+cv::Mat Remotion::readImage(RemotionError *error_buff) {
     auto img = cv::Mat();
     if (tryToOpenCamera() != RemotionError::NO_ERROR)  // check if we succeeded
         throw std::runtime_error("Could not open video stream");
@@ -53,10 +48,8 @@ cv::Mat Remotion::readImage(RemotionError *error_buff)
     return img;
 }
 
-RemotionError Remotion::setExpression(RemotionExpression exp)
-{
-    switch (exp)
-    {
+RemotionError Remotion::setExpression(RemotionExpression exp) {
+    switch (exp) {
     case RemotionExpression::CALM:
         _serialPort.Write("0");
         break;
@@ -87,19 +80,16 @@ RemotionError Remotion::setExpression(RemotionExpression exp)
     return RemotionError();
 }
 
-RemotionStatus Remotion::getStatus() const
-{
-    return _status;
-}
+RemotionStatus Remotion::getStatus() const { return _status; }
 
-RemotionError Remotion::tryToOpenCamera() { 
+RemotionError Remotion::tryToOpenCamera() {
     _cap.open(_video_source);
-    if (!_cap.isOpened())
-    {
+    if (!_cap.isOpened()) {
         _status.cameraError = RemotionError::ERROR_OPEN_PORT;
-        printf("Error: Could not open video stream n %d\n", _video_source);
+        throw std::runtime_error("Could not open video stream No. " +
+                                 std::to_string(_video_source));
     } else {
         _status.cameraError = RemotionError::NO_ERROR;
     }
     return _status.cameraError;
- }
+}
