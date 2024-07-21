@@ -41,6 +41,12 @@ class Remotion {
     /// @return  cv::Mat
     cv::Mat readImage(RemotionError *error_buff = nullptr);
 
+    /// @brief Read video frame
+    /// @param out_buffer - output buffer
+    /// @param out_buffer_size - output buffer size
+    /// @return RemotionError
+    RemotionError readVideoFrame(char *out_buffer, size_t &out_buffer_size);
+
     /// @brief Set expression
     /// @param exp - expression
     /// @return RemotionError
@@ -50,12 +56,13 @@ class Remotion {
     /// @return RemotionStatus
     [[nodiscard]] RemotionStatus getStatus() const;
 
+    RemotionError createVideoCapture(std::string &device, int width, int height,
+                                     int fps);
+
  private:
     constexpr static int SERIAL_PORT_TIMEOUT = 100;
 
     RemotionError tryToOpenCamera();
-    RemotionError createVideoCapture(std::string &device, int width, int height,
-                                     int fps);
 
     mn::CppLinuxSerial::SerialPort _serialPort =
         mn::CppLinuxSerial::SerialPort();

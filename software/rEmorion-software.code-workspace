@@ -171,11 +171,11 @@
                 "default": ".",
                 "options": [
                     {
-                        "value": "./example",
+                        "value": "${workspaceFolder}/example",
                         "label": "Example Application"
                     },
                     {
-                        "value": ".",
+                        "value": "${workspaceFolder}",
                         "label": "Library"
                     }
                 ]

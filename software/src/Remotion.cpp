@@ -42,6 +42,28 @@ void Remotion::stop() {
     _cap.release();
 }
 
+RemotionError Remotion::readVideoFrame(char *out_buffer,
+                                       size_t & out_buffer_size) {
+
+    timeval tv;
+    tv.tv_sec = 1;
+    tv.tv_usec = 0;
+
+    // If the camera is not opened, return an error
+    if (!_videoCapture->isReadable(&tv)) {
+        return RemotionError::ERROR_READ_PORT;
+    }
+
+    // Read the frame from the camera
+    out_buffer_size = _videoCapture->getBufferSize();
+    int rsize = _videoCapture->read(out_buffer, out_buffer_size);
+    if (rsize == -1) {
+        return RemotionError::ERROR_READ_IMAGE;
+    }
+    
+    return RemotionError::NO_ERROR;
+}
+
 cv::Mat Remotion::readImage(RemotionError *error_buff) {
     auto img = cv::Mat();
     if (tryToOpenCamera() != RemotionError::NO_ERROR)  // check if we succeeded
@@ -98,19 +120,12 @@ RemotionError Remotion::tryToOpenCamera() {
 
 RemotionError Remotion::createVideoCapture(std::string &device, int width,
                                            int height, int fps) {
-    return RemotionError();
-}
-
-RemotionError Remotion::createVideoCapture(std::string &device, int width,
-                                           int height, int fps) {
-    V4L2DeviceParameters param(device, V4L2_PIX_FMT_VP8, width, height, fps,
-                               IOTYPE_READWRITE, 0);
+    V4L2DeviceParameters param(device.c_str(), V4L2_PIX_FMT_YUYV, width, height, fps);
     _videoCapture = V4l2Capture::create(param);
-    if (_videoCapture == NULL)
-	{	
-		// LOG(WARN) << "Cannot reading from V4L2 capture interface for device:" << in_devname; 
+    if (_videoCapture == NULL) {
+        // LOG(WARN) << "Cannot reading from V4L2 capture interface for device:"
+        // << in_devname;
         return RemotionError::ERROR_OPEN_PORT;
-	}
+    }
     return RemotionError::NO_ERROR;
-    
 }
