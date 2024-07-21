@@ -10,13 +10,20 @@
 #pragma once
 
 #include <string>
-#include <opencv2/opencv.hpp>
 
 #include "CppLinuxSerial/SerialPort.hpp"
 #include "RemotionError.hpp"
 #include "RemotionExpression.hpp"
 #include "RemotionStatus.hpp"
 #include "V4l2Capture.h"
+
+struct VideoCaptureParams {
+    std::string device;
+    unsigned int v4l2_pix_fmt;
+    int width;
+    int height;
+    int fps;
+};
 
 class Remotion {
  public:
@@ -31,21 +38,19 @@ class Remotion {
     /// @param port_name - serial port name, e.g. "/dev/ttyUSB0"
     /// @param video_source - video source number
     /// @return RemotionStatus
-    const RemotionStatus start(const std::string &port_name, int video_source);
+    const RemotionStatus start(const std::string &port_name,
+                               const std::string &video_device,
+                               unsigned int v4l2_pix_fmt, int width, int height,
+                               int fps);
 
     /// @brief Stop Remotion camera
     void stop();
-
-    /// @brief Read image from camera
-    /// @param error_buff - error buffer
-    /// @return  cv::Mat
-    cv::Mat readImage(RemotionError *error_buff = nullptr);
 
     /// @brief Read video frame
     /// @param out_buffer - output buffer
     /// @param out_buffer_size - output buffer size
     /// @return RemotionError
-    RemotionError readVideoFrame(char *out_buffer, size_t &out_buffer_size);
+    RemotionError readVideoFrame(char *out_buffer, size_t out_buffer_size);
 
     /// @brief Set expression
     /// @param exp - expression
@@ -56,19 +61,20 @@ class Remotion {
     /// @return RemotionStatus
     [[nodiscard]] RemotionStatus getStatus() const;
 
-    RemotionError createVideoCapture(std::string &device, int width, int height,
-                                     int fps);
+    int getVideoCaptureBufferSize();
 
  private:
+    RemotionError _createVideoCapture(std::string &device, unsigned int format,
+                                      int width, int height, int fps);
+
+    V4l2Capture *_getVideo();
+    mn::CppLinuxSerial::SerialPort *_getSerialPort();
+
     constexpr static int SERIAL_PORT_TIMEOUT = 100;
 
-    RemotionError tryToOpenCamera();
-
-    mn::CppLinuxSerial::SerialPort _serialPort =
-        mn::CppLinuxSerial::SerialPort();
-    V4l2Capture *_videoCapture = nullptr;
+    mn::CppLinuxSerial::SerialPort *_serialPort = nullptr;
     RemotionStatus _status = RemotionStatus();
     std::string _port_name = "";
-    int _video_source = -1;
-    cv::VideoCapture _cap = cv::VideoCapture();
+    VideoCaptureParams _videoCaptureParams = {};
+    V4l2Capture *_videoCapture = nullptr;
 };

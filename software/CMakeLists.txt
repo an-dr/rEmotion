@@ -4,10 +4,6 @@ project(remotion_ctrl)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
-# OpenCV
-find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
-
 # Config: microlog
 add_definitions(-DULOG_HIDE_FILE_STRING)
 add_definitions(-DULOG_SHORT_LEVEL_STRINGS)
@@ -22,15 +18,8 @@ set(BUILD_TESTS
 # Add abcmake
 include(ab.cmake)
 
-# register_components(
-#     ${CMAKE_CURRENT_LIST_DIR}/../common_components/microlog
-#     ${CMAKE_CURRENT_LIST_DIR}/../common_components/visioner_interfaces
-#     ${CMAKE_CURRENT_LIST_DIR}/../common_components/visioner_app
-#     ${CMAKE_CURRENT_LIST_DIR}/../common_components/SceneReaderWebcam
-# )
 
 add_component(${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE CppLinuxSerial::CppLinuxSerial)
 target_link_libraries(${PROJECT_NAME} PRIVATE libv4l2cpp)
 # target_link_components(
