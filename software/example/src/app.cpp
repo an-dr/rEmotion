@@ -24,24 +24,29 @@ int main(int argc, char const *argv[]) {
     const int width = 1280;
     const int height = 720;
     const int fps = 30;
+    const unsigned int format = V4L2_PIX_FMT_YUYV;
     std::string video_dev = "/dev/video0";
+    std::string port_name = "/dev/ttyUSB0";
 
     Remotion r;
-    r.start("/dev/ttyUSB0", "/dev/video0", V4L2_PIX_FMT_YUYV, 1280, 720, 30);
+    r.start(port_name, video_dev, format, width, height, fps);
 
     int buffer_size = r.getVideoCaptureBufferSize();
     char *buffer = new char[r.getVideoCaptureBufferSize()];
 
-    r.setExpression(RemotionExpression::HAPPY);
+    r.setExpression(RemotionExpression::CONFUSED);
     sleep(1);
     r.setExpression(RemotionExpression::CALM);
     sleep(1);
+    r.setExpression(RemotionExpression::HAPPY);
+    sleep(1);
+    
     while (true) {
         r.readVideoFrame(buffer, buffer_size);
         write_img(buffer, width, height, "img.jpg");
         sleep(1 / fps);
     }
-
-    /* code */
+    
+    r.stop();
     return 0;
 }

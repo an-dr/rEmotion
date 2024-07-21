@@ -7,6 +7,7 @@
 //
 // *************************************************************************
 #include <string>
+#include <unistd.h>
 
 #include "CppLinuxSerial/SerialPort.hpp"
 #include "RemotionError.hpp"
@@ -25,6 +26,9 @@ mn::CppLinuxSerial::SerialPort *Remotion::_getSerialPort() {
         _serialPort->SetNumDataBits(mn::CppLinuxSerial::NumDataBits::EIGHT);
         _serialPort->SetTimeout(SERIAL_PORT_TIMEOUT);
         _serialPort->Open();
+        sleep(
+            SERIAL_PORT_INIT_ANIMATION_DURATION_S);  // sleep for initialization
+                                                     // animation
     }
     return _serialPort;
 }

@@ -71,6 +71,7 @@ class Remotion {
     mn::CppLinuxSerial::SerialPort *_getSerialPort();
 
     constexpr static int SERIAL_PORT_TIMEOUT = 100;
+    constexpr static int SERIAL_PORT_INIT_ANIMATION_DURATION_S = 10;
 
     mn::CppLinuxSerial::SerialPort *_serialPort = nullptr;
     RemotionStatus _status = RemotionStatus();
