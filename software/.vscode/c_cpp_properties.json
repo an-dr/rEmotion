@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Example",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "intelliSenseMode": "linux-gcc-x64",
+            "cppStandard": "c++17",
+            "cStandard": "c17",
+            "compileCommands": "example/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}

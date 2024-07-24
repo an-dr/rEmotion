@@ -1,0 +1,15 @@
+# *************************************************************************
+#
+# Copyright (c) 2024 Andrei Gramakov. All rights reserved.
+#
+# site:    https://agramakov.me
+# e-mail:  mail@agramakov.me
+#
+#
+# This file is a part of a template:
+# - https://github.com/an-dr/hello_world_cpp
+# *************************************************************************
+
+Checks:          'clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,modernize-*,-modernize-use-trailing-return-type'
+FormatStyle:     llvm
+

@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": ".",
+            "name": "software"
+		},
+        {
+            "path": "..",
+            "name": "rEmorion"
+        }
+    ],
+    "settings": {},
+    "extensions": {
+        "recommendations": [
+            "platformio.platformio-ide"
+        ],
+        "unwantedRecommendations": [
+            "ms-vscode.cpptools-extension-pack"
+        ]
+    }
+}
