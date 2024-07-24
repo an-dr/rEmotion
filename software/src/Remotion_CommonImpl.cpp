@@ -8,8 +8,6 @@
 // *************************************************************************
 #include <cstdio>
 #include <string>
-#include <opencv2/core/mat.hpp>
-#include <opencv2/opencv.hpp>
 
 #include "CppLinuxSerial/SerialPort.hpp"
 #include "RemotionError.hpp"
