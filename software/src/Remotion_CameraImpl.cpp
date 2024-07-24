@@ -18,7 +18,6 @@
 
 RemotionError Remotion::readVideoFrame(char *out_buffer,
                                        size_t out_buffer_size) {
-
     if (_videoCapture == nullptr) {
         auto err = _createVideoCapture(
             _videoCaptureParams.device, _videoCaptureParams.v4l2_pix_fmt,

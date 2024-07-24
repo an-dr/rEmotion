@@ -36,7 +36,11 @@ class Remotion {
 
     /// @brief Start Remotion camera
     /// @param port_name - serial port name, e.g. "/dev/ttyUSB0"
-    /// @param video_source - video source number
+    /// @param video_device - video device name, e.g. "/dev/video0"
+    /// @param v4l2_pix_fmt - V4L2 pixel format, e.g. V4L2_PIX_FMT_YUYV
+    /// @param width - video frame width
+    /// @param height - video frame height
+    /// @param fps - video frame rate
     /// @return RemotionStatus
     const RemotionStatus start(const std::string &port_name,
                                const std::string &video_device,
@@ -59,8 +63,9 @@ class Remotion {
 
     /// @brief Get status
     /// @return RemotionStatus
-    [[nodiscard]] RemotionStatus getStatus() const;
+    RemotionStatus getStatus() const;
 
+    /// @brief Get video capture buffer size for storing a frame
     int getVideoCaptureBufferSize();
 
  private:

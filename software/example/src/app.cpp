@@ -21,6 +21,7 @@ static void write_img(char *buffer, int width, int height,
 }
 
 int main(int argc, char const *argv[]) {
+    // Set parameters
     const int width = 1280;
     const int height = 720;
     const int fps = 30;
@@ -28,12 +29,14 @@ int main(int argc, char const *argv[]) {
     std::string video_dev = "/dev/video0";
     std::string port_name = "/dev/ttyUSB0";
 
+    // Create and init Remotion object
     Remotion r;
+    auto buffer_size = r.getVideoCaptureBufferSize();
+    char *buffer = new char[buffer_size];
     r.start(port_name, video_dev, format, width, height, fps);
 
-    int buffer_size = r.getVideoCaptureBufferSize();
-    char *buffer = new char[r.getVideoCaptureBufferSize()];
 
+    // Set different expressions
     r.setExpression(RemotionExpression::CONFUSED);
     sleep(1);
     r.setExpression(RemotionExpression::CALM);
@@ -41,6 +44,7 @@ int main(int argc, char const *argv[]) {
     r.setExpression(RemotionExpression::HAPPY);
     sleep(1);
     
+    // Read video frames and save them to img.jpg
     while (true) {
         r.readVideoFrame(buffer, buffer_size);
         write_img(buffer, width, height, "img.jpg");
@@ -48,5 +52,6 @@ int main(int argc, char const *argv[]) {
     }
     
     r.stop();
-    return 0;
+    delete buffer;
+    return -1;
 }
