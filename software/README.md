@@ -1,12 +1,19 @@
-# VisioneREmotion
+# rEmotion control library
 
-Visioner implementation based on reading images from `input` folder and reading scene from a webcam. Expects images of following types:
+[![abcmake](https://img.shields.io/badge/uses-abcmake-blue)](https://github.com/an-dr/abcmake)
 
-- `input/object_good_*` - image of an object for positive response
-- `input/object_bad_*` - image of an object for negative response
+The library provides an API to control the rEmotion module. Check the example  [example/src/app.cpp](example/src/app.cpp).
 
-In theory, reads all major image formats, but tested only with `jpg` and `png`.
+To read the supported formats of your webcam use the following command:
+
+```bash
+v4l2-ctl --list-formats-ext
+```
+
+Based on the format you might need different conversions in order to display the image correctly.
 
 ## Requirements
+
+For tests:
 
 - libgtest-dev
