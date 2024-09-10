@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "rEmorion_components")(type "KiCad")(uri "${KIPRJMOD}/rEmorion_components.kicad_sym")(options "")(descr ""))
+)

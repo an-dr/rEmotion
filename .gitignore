@@ -57,3 +57,10 @@ build
 install
 
 .cache
+
+#KiCAD
+schematic/rEmotion-backups
+*.bak
+*.lck
+\#auto_saved_files\#
+*.kicad_sch-bak
