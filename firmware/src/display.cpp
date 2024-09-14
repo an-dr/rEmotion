@@ -1,5 +1,4 @@
 #include "display.h"
-#include <LibPrintf.h>
 
 U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, 
                                 /* clock=*/ LCD_E, 
