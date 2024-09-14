@@ -16,17 +16,17 @@
 #include "i2c.h"
 
 
-void serial_poll(void)
-{
-    if (Serial.available() > 0) {
-        // read the incoming byte to i2c's command reg:
-        i2c.Set(REG_CMD, Serial.read());
+// void serial_poll(void)
+// {
+//     if (Serial.available() > 0) {
+//         // read the incoming byte to i2c's command reg:
+//         i2c.Set(REG_CMD, Serial.read());
 
-        // say what you got:
-        printf("[UART] I received: %d\n", i2c.Get(REG_CMD));
+//         // say what you got:
+//         printf("[UART] I received: %d\n", i2c.Get(REG_CMD));
 
-    }
-}
+//     }
+// }
 
 void serial_init(void)
 {
