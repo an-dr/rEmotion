@@ -1,6 +1,3 @@
-[submodule "software/lib/arduino_i2c_with_regs"]
-	path = firmware/lib/arduino_i2c_with_regs
-	url = git@github.com:an-dr/arduino_i2c_with_regs.git
 [submodule "software/lib/ControlCallbacks"]
 	path = firmware/lib/ControlCallbacks
 	url = git@github.com:an-dr/ControlCallbacks.git
@@ -13,3 +10,6 @@
 [submodule "software/components/libv4l2cpp"]
 	path = software/components/libv4l2cpp
 	url = https://github.com/an-dr/libv4l2cpp.git
+[submodule "firmware/lib/microlog"]
+	path = firmware/lib/microlog
+	url = https://github.com/an-dr/microlog.git

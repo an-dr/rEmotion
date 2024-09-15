@@ -11,19 +11,18 @@
 // *************************************************************************
 
 #include "serial.h"
+#include "ulog.h"
 #include "common_config.h"
 #include "controlcallback.h"
-#include "i2c.h"
 
 
-void serial_poll(void)
+void serial_poll(void * arg)
 {
     if (Serial.available() > 0) {
-        // read the incoming byte to i2c's command reg:
-        i2c.Set(REG_CMD, Serial.read());
+        cmd = Serial.read();
 
         // say what you got:
-        printf("[UART] I received: %d\n", i2c.Get(REG_CMD));
+        log_info("[UART] I received: 0x%x", cmd);
 
     }
 }

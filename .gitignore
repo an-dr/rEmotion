@@ -55,6 +55,7 @@ dkms.conf
 # Artifacts
 build
 install
+.pio
 
 .cache
 

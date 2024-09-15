@@ -14,5 +14,5 @@
 
 #include <Arduino.h>
 
-void serial_poll(void);
+void serial_poll(void * arg);
 void serial_init(void);

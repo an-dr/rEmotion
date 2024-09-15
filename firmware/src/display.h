@@ -21,12 +21,7 @@
 #include <Wire.h>
 #endif
 
-#if SH1106_128X64
-extern U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2;
-#endif
-#if KS0108_128X64
-extern U8G2_KS0108_128X64_F u8g2;
-#endif
+extern U8G2_ST7920_128X64_1_SW_SPI u8g2;
 
 void display_init(void);
 void display_sad();
@@ -36,7 +31,6 @@ void display_blink();
 void display_calm();
 void display_dunno();
 void display_confused();
-void display_thinking();
 void greeting(void);
 void blinking(void);
 void demo(void);

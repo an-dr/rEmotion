@@ -1,27 +1,38 @@
 #include <Arduino.h>
-#include "pinout.h"
-#include "display.h"
-#include "i2c.h"
-#include "serial.h"
-#include "printf.h"
 #include "controlcallback.h"
+#include "display.h"
+#include "pinout.h"
+#include "serial.h"
+#include "ulog.h"
+#include "stepper.hpp"
 
 
-void setup(void) {
-    printf_init();
-    display_init();
-    i2c.Init(0x2c, 16, (void *)i2c_reqEv, (void *)i2c_rcvEv);
-    Cc.Init(connection,SIZE_ARR(connection));
+
+void ulog_callback(ulog_Event *ev, void *arg) {
+    static char buffer[128];
+    ulog_event_to_cstr(ev, buffer, sizeof(buffer));
+    ((SerialUSB *) arg)->println(buffer);
+}
+
+
+void setup() {
+    ulog_add_callback(ulog_callback, (void* )&Serial, LOG_TRACE);
     serial_init();
-
+    display_init();
+    Cc.Init(connection,9);
     greeting();
 }
 
-void loop(void) {
-    // blinking();
-    // demo();
-    // blinking();
-    serial_poll();
-    control_poll();
-    // i2c.Print();
+void setup1() {
+    stepper_init();
+}
+
+void loop() {
+    serial_poll(NULL);
+    control_poll(NULL);
+    
+}
+
+void loop1() {
+    stepper_once();
 }
