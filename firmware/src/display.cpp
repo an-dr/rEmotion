@@ -56,17 +56,6 @@ void display_confused() {
     set_face(face_confused);
 }
 
-// void display_thinking() {
-//     set_face(face_thinking1);
-//     delay(500);
-//     set_face(face_thinking2);
-//     delay(500);
-//     set_face(face_thinking3);
-//     delay(500);
-    
-// }
-
-
 void demo(void)
 {
     display_calm();

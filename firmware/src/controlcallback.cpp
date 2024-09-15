@@ -24,7 +24,6 @@ Connection_t connection[] = {
     {.cmd_code = CMD_TARGET_FACE | CMD_SAD, .func = display_sad},
     {.cmd_code = CMD_TARGET_FACE | CMD_DUNNO, .func = display_dunno},
     {.cmd_code = CMD_TARGET_FACE | CMD_CONFUSED, .func = display_confused},
-    // {.cmd_code = CMD_TARGET_FACE | CMD_THINKING, .func = display_thinking},
     {.cmd_code = CMD_LEFT, .func = stepper_left},
     {.cmd_code = CMD_RIGHT, .func = stepper_right}
 };

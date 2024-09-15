@@ -31,7 +31,6 @@ void display_blink();
 void display_calm();
 void display_dunno();
 void display_confused();
-void display_thinking();
 void greeting(void);
 void blinking(void);
 void demo(void);
