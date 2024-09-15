@@ -2,7 +2,8 @@
 
 #define SERIAL_BAUDRATE 9600
 
-#define CMD_TARGET_STEPPER 0x10
+#define CMD_LEFT           0x61 // 'a'
+#define CMD_RIGHT          0x64 // 'd'
 
 #define CMD_TARGET_FACE 0x30
 #define CMD_CALM        0x0
