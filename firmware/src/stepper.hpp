@@ -9,8 +9,6 @@
 
 #pragma once
 
-// includes
-
 void stepper_left();
 void stepper_right();
 void stepper_init();

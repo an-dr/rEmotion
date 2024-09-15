@@ -15,6 +15,6 @@
 #define SIZE_ARR(x) (sizeof(x) / sizeof(x[0]))
 
 extern int cmd;
-extern Connection_t connection[10];
+extern Connection_t connection[];
 extern ControlCallbacks Cc;
 void control_poll( void * arg);

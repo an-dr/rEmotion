@@ -38,7 +38,7 @@ void stepper_once()
     if (stepper_pos != 0)
     {
         stepper.step(stepper_pos);
+        stepper_pos = 0;
     }
-    stepper_pos = 0;
     
 }

@@ -56,15 +56,15 @@ void display_confused() {
     set_face(face_confused);
 }
 
-void display_thinking() {
-    set_face(face_thinking1);
-    delay(500);
-    set_face(face_thinking2);
-    delay(500);
-    set_face(face_thinking3);
-    delay(500);
+// void display_thinking() {
+//     set_face(face_thinking1);
+//     delay(500);
+//     set_face(face_thinking2);
+//     delay(500);
+//     set_face(face_thinking3);
+//     delay(500);
     
-}
+// }
 
 
 void demo(void)
@@ -119,20 +119,16 @@ void blinking(void) {
 
 void greeting(void) {
     set_face(face_thinking1);
-    delay(300);
-    set_face(face_thinking2);
-    delay(300);
-    set_face(face_thinking3);
-    delay(300);
-    set_face(face_blink);
-    delay(300);
-    set_face(face_calm);
-    delay(200);
-    set_face(face_blink);
     delay(100);
+    set_face(face_thinking2);
+    delay(100);
+    set_face(face_thinking3);
+    delay(100);
+    set_face(face_blink);
+    delay(300);
     set_face(face_calm);
-    delay(1000);
+    delay(700);
     set_face(face_happy);
-    delay(2000);
+    delay(1000);
     set_face(face_calm);
 }
