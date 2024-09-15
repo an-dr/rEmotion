@@ -1,19 +1,12 @@
 #include <Arduino.h>
+#include <FreeRTOS.h>
+#include <task.h>
 
-#include "pinout.h"
+#include "controlcallback.h"
 #include "display.h"
-#include "i2c.h"
+#include "pinout.h"
 #include "serial.h"
 #include "ulog.h"
-#include "controlcallback.h"
-
-
-
-// Custom putchar function to redirect printf output to Serial
-extern "C" int putchar(int ch) {
-    Serial.write(ch); // Send the character to Serial
-    return ch;        // Return the character
-}
 
 
 void ulog_callback(ulog_Event *ev, void *arg) {
@@ -23,24 +16,34 @@ void ulog_callback(ulog_Event *ev, void *arg) {
 }
 
 
+static void serial_thread(void *pvParameters) {
+    while (1) {
+        serial_poll(NULL);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    }
+}
+
+static void control_thread(void *pvParameters) {
+    while (1) {
+        control_poll(NULL);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    }
+}
+
 void setup() {
     ulog_add_callback(ulog_callback, (void* )&Serial, LOG_TRACE);
-    Serial.begin(9600); // Initialize serial communication at 9600 baud
+    serial_init();
     display_init();
-    // i2c.Init(0x2c, 16, (void *)i2c_reqEv, (void *)i2c_rcvEv);
-    // Cc.Init(connection,SIZE_ARR(connection));
+    Cc.Init(connection,SIZE_ARR(connection));
 
-    // greeting();
+    greeting();
+    
+    log_info("Hello from Arduino"); // Example usage of printf
+    
+    xTaskCreate(serial_thread, "Serial", 1000, NULL, 1, NULL);
+    xTaskCreate(control_thread, "Control", 1000, NULL, 1, NULL);
 }
 
 void loop() {
-    static int a=0;
-    // Your main code here
-    log_info("Hello from Arduino's loop() %d!", a++); // Example usage of printf
-    // blinking();
-    // demo();
-    // blinking();
-    // control_poll();
-    // i2c.Print();
-    delay(1000); // Delay for 1 second
+    // new thread
 }

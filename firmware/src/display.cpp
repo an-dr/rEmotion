@@ -1,10 +1,10 @@
 #include "display.h"
+#include "ulog.h"
 
 U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, 
                                 /* clock=*/ LCD_E, 
                                 /* data=*/ LCD_RW, 
-                                /* CS=*/ LCD_DC,
-                                8);
+                                /* CS=*/ LCD_DC);
 
 const uint8_t face_calm[] PROGMEM = UNIFACE_CALM;
 const uint8_t face_blink[] PROGMEM = UNIFACE_BLINK;
@@ -18,9 +18,7 @@ const uint8_t face_thinking2[] PROGMEM = UNIFACE_THINKING2;
 const uint8_t face_thinking3[] PROGMEM = UNIFACE_THINKING3;
 
 void display_init(void) {
-    /* U8g2 Project: KS0108 Test Board */
-    printf("Display init\n");
-    pinMode(LCD_DC, OUTPUT);
+    log_info("Display init");
     u8g2.begin();
 
     display_blink();

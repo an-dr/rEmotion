@@ -17,4 +17,4 @@
 extern int cmd;
 extern Connection_t connection[8];
 extern ControlCallbacks Cc;
-void control_poll();
+void control_poll( void * arg);
