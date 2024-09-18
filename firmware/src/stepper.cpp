@@ -21,15 +21,18 @@ constexpr int STEPPER_MOVE = 100;
 void stepper_init()
 {
     stepper.setSpeed(5);
+    logt_debug("Stepper", "Stepper initialized, Speed: %d", 5);
 }
 
 void stepper_left()
 {
+    logt_debug("Stepper", "Stepper left");
     stepper_pos = -STEPPER_MOVE;
 }
 
 void stepper_right()
 {
+    logt_debug("Stepper", "Stepper right");
     stepper_pos = STEPPER_MOVE;
 }
 

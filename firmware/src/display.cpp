@@ -18,10 +18,11 @@ const uint8_t face_thinking2[] PROGMEM = UNIFACE_THINKING2;
 const uint8_t face_thinking3[] PROGMEM = UNIFACE_THINKING3;
 
 void display_init(void) {
-    log_info("Display init");
+    logt_info("Display", "init");
     u8g2.begin();
 
     display_blink();
+    logt_info("Display", "init done");
 }
 
 static void set_face(const uint8_t *face) {
@@ -32,27 +33,34 @@ static void set_face(const uint8_t *face) {
 }
 
 void display_calm() {
+    logt_debug("Display", "calm face");
     set_face(face_calm);
 }
 
 void display_blink() {
+    logt_debug("Display", "blink face");
     set_face(face_blink);
 }
 void display_angry() {
+    logt_debug("Display", "angry face");
     set_face(face_angry);
 }
 void display_happy() {
+    logt_debug("Display", "happy face");
     set_face(face_happy);
 }
 void display_sad() {
+    logt_debug("Display", "sad face");
     set_face(face_sad);
 }
 
 void display_dunno() {
+    logt_debug("Display", "dunno face");
     set_face(face_dunno);
 }
 
 void display_confused() {
+    logt_debug("Display", "confused face");
     set_face(face_confused);
 }
 

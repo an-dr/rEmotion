@@ -22,7 +22,7 @@ void serial_poll(void * arg)
         cmd = Serial.read();
 
         // say what you got:
-        log_info("[UART] I received: 0x%x", cmd);
+        logt_info("UART", "I received: 0x%x", cmd);
 
     }
 }

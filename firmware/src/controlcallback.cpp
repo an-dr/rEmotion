@@ -14,7 +14,7 @@
 #include "common_config.h"
 #include "display.h"
 #include "stepper.hpp"
-
+#include "ulog.h"
 
 Connection_t connection[] = {
     {.cmd_code = CMD_TARGET_FACE | CMD_CALM, .func = display_calm},
@@ -36,7 +36,13 @@ void control_poll( void * arg) {
     int new_cmd = cmd;
     cmd = CMD_NONE;
     if ((new_cmd != CMD_NONE&0xFF) & (new_cmd != CMD_DONE)) {
-        Cc.Exec(new_cmd);
+        int result = Cc.Exec(new_cmd);
+        if (result == -1) {
+            logt_warn("Control", "Command not found: 0x%x", new_cmd);
+        }
+        else {
+            logt_info("Control", "Executed command: 0x%x", new_cmd);
+        }
     }
 }
 
