@@ -40,7 +40,7 @@ int main(int argc, char const *argv[]) {
     (void)argv;
 
     // Set parameters
-    const int width = 1080;
+    const int width = 1280;
     const int height = 720;
     const int fps = 30;
     std::string video_dev = "/dev/video0";
@@ -70,6 +70,7 @@ int main(int argc, char const *argv[]) {
     uint64_t last_move = 0;
     uint64_t move_period_ms = 3000;
     auto move = RemotionMovement::LEFT;
+    auto expression = RemotionExpression::HAPPY;
     // Read video frames and save them to img.jpg
     while (true) {
         cam.readVideoFrame(vidbuf, vidbuf_size);
@@ -79,9 +80,13 @@ int main(int argc, char const *argv[]) {
         if (getMillis() - last_move > move_period_ms) {
             // Move
             ctrl.setMovement(move);
-            // Change direction
+            ctrl.setExpression(expression);
+            // Change direction and expression
             move = (move == RemotionMovement::LEFT) ? RemotionMovement::RIGHT
                                                     : RemotionMovement::LEFT;
+            expression = (expression == RemotionExpression::HAPPY)
+                             ? RemotionExpression::ANGRY
+                             : RemotionExpression::HAPPY;
             // Store update time
             last_move = getMillis();
             std::cout << "Move! Time: " << last_move << std::endl;

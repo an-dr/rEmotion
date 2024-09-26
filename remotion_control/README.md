@@ -23,8 +23,7 @@ Foe example, to build the library you need the following packages:
 
 - libopencv-dev
 - libv4l-dev
-- libjpeg-dev
 
-For tests:
+Building the library:
 
-- libgtest-dev
+```bash
