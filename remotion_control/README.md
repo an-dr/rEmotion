@@ -4,6 +4,11 @@
 
 The library provides an API to control the rEmotion module. Check the example  [example/src/app.cpp](example/src/app.cpp).
 
+The library provides two classes:
+
+- `remotion::ReReader` - the class to read camera data.
+- `remotion::ReController` - the main class to control the rEmotion module.
+
 To read the supported formats of your webcam use the following command:
 
 ```bash

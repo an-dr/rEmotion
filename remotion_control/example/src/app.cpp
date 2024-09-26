@@ -13,6 +13,7 @@
 #include <jpeglib.h>
 #include <unistd.h>
 #include "Remotion.hpp"
+#include "RemotionController.hpp"
 
 
 static cv::Mat extract_frame_from_mjpeg(unsigned char* mjpeg_data, int width, int height)
@@ -78,31 +79,41 @@ int main(int argc, char const *argv[]) {
     std::string port_name = "/dev/ttyACM0";
 
     // Create and init Remotion object
-    Remotion r;
-    auto buffer_size = r.getVideoCaptureBufferSize( video_dev, format, width, height, fps);
-    if (buffer_size == -1) {
-        return -1;
-    }
-    char *buffer = new char[buffer_size];
-    r.start(port_name, video_dev, format, width, height, fps);
+    Re::RemotionController ctrl(port_name);
+    
+    ctrl.setExpression(RemotionExpression::CONFUSED);
+    sleep(1);
+    ctrl.setExpression(RemotionExpression::CALM);
+    sleep(1);
+    ctrl.setExpression(RemotionExpression::HAPPY);
+    sleep(1);
+
+    // // Create and init Remotion object
+    // Remotion r;
+    // auto buffer_size = r.getVideoCaptureBufferSize( video_dev, format, width, height, fps);
+    // if (buffer_size == -1) {
+    //     return -1;
+    // }
+    // char *buffer = new char[buffer_size];
+    // r.start(port_name, video_dev, format, width, height, fps);
 
 
-    // Set different expressions
-    r.setExpression(RemotionExpression::CONFUSED);
-    sleep(1);
-    r.setExpression(RemotionExpression::CALM);
-    sleep(1);
-    r.setExpression(RemotionExpression::HAPPY);
-    sleep(1);
+    // // Set different expressions
+    // r.setExpression(RemotionExpression::CONFUSED);
+    // sleep(1);
+    // r.setExpression(RemotionExpression::CALM);
+    // sleep(1);
+    // r.setExpression(RemotionExpression::HAPPY);
+    // sleep(1);
     
-    // Read video frames and save them to img.jpg
-    while (true) {
-        r.readVideoFrame(buffer, buffer_size);
-        write_img(buffer, width, height, "img.jpg");
-        sleep(1 / fps);
-    }
+    // // Read video frames and save them to img.jpg
+    // while (true) {
+    //     r.readVideoFrame(buffer, buffer_size);
+    //     write_img(buffer, width, height, "img.jpg");
+    //     sleep(1 / fps);
+    // }
     
-    r.stop();
-    delete buffer;
-    return -1;
+    // r.stop();
+    // delete buffer;
+    // return -1;
 }

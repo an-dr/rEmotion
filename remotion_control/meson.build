@@ -11,6 +11,7 @@ project('remotion_control', 'cpp',
 public_include = ['include']
 src = [ 'src/Remotion_CameraImpl.cpp',
         'src/Remotion_CommonImpl.cpp',
+        'src/RemotionContoller.cpp',
         'src/Remotion_FaceImpl.cpp']
 
 

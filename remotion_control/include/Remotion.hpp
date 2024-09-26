@@ -26,6 +26,7 @@ struct VideoCaptureParams {
 };
 
 class Remotion {
+    
  public:
     Remotion() = default;
     Remotion(Remotion &&) = delete;
@@ -70,15 +71,14 @@ class Remotion {
                                   int width, int height, int fps);
 
  private:
-    V4l2Capture* _createVideoCapture(std::string &device, unsigned int format,
-                                      int width, int height, int fps);
-
+    V4l2Capture *_createVideoCapture(std::string &device, unsigned int format,
+                                     int width, int height, int fps);
     V4l2Capture *_getVideo();
     mn::CppLinuxSerial::SerialPort *_getSerialPort();
 
+ private:
     constexpr static int SERIAL_PORT_TIMEOUT = 100;
     constexpr static int SERIAL_PORT_INIT_ANIMATION_DURATION_S = 10;
-
     mn::CppLinuxSerial::SerialPort *_serialPort = nullptr;
     RemotionStatus _status = RemotionStatus();
     std::string _port_name = "";
