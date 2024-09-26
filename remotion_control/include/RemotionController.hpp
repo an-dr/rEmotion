@@ -13,6 +13,7 @@
 #include "CppLinuxSerial/SerialPort.hpp"
 #include "RemotionError.hpp"
 #include "RemotionExpression.hpp"
+#include "RemotionMovement.hpp"
 #include "RemotionStatus.hpp"
 
 namespace Re {
@@ -36,6 +37,11 @@ class RemotionController {
     /// @param exp - expression
     /// @return RemotionError
     RemotionError setExpression(RemotionExpression exp);
+
+    /// @brief Set movement
+    /// @param move - movement
+    /// @return RemotionError
+    RemotionError setMovement(RemotionMovement move);
 };
 
-};  // namespace Remotion
+};  // namespace Re

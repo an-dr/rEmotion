@@ -26,7 +26,8 @@ RemotionCamera::RemotionCamera(const std::string &video_device,
         video_device.c_str(), v4l2_pix_fmt, width, height, fps);
     videoCapture = V4l2Capture::create(*videoCaptureParams);
     if (videoCapture == nullptr) {
-        throw std::runtime_error("Failed to create V4l2Capture object");
+        throw std::runtime_error("Failed to init " + video_device +
+                                 ". Is the camera connected?");
     }
 }
 
@@ -49,7 +50,7 @@ RemotionError RemotionCamera::readVideoFrame(char *out_buffer,
         return RemotionError::ERROR_OPEN_PORT;
     }
 
-    timeval tv{1, 0}; // 1 second, 0 microseconds
+    timeval tv{1, 0};  // 1 second, 0 microseconds
 
     // If the camera is not opened, return an error
     if (!videoCapture->isReadable(&tv)) {

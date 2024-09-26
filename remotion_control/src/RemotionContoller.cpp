@@ -58,3 +58,17 @@ RemotionError RemotionController::setExpression(RemotionExpression exp) {
     }
     return RemotionError::NO_ERROR;
 }
+
+RemotionError RemotionController::setMovement(RemotionMovement move) {
+    switch (move) {
+    case RemotionMovement::LEFT:
+        serial->Write("a");
+        break;
+    case RemotionMovement::RIGHT:
+        serial->Write("d");
+        break;
+    default:
+        break;
+    }
+    return RemotionError::NO_ERROR;
+}
