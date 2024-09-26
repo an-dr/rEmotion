@@ -14,18 +14,17 @@ src = [
         'src/RemotionCamera.cpp',
 ]
 
-
 cmake = import('cmake')
-opt_var = cmake.subproject_options()
-opt_var.add_cmake_defines({'BUILD_TESTS': 'OFF'})
 
 libv4l2cpp_proj = cmake.subproject('libv4l2cpp')
-cpp_linux_serial_proj = cmake.subproject('CppLinuxSerial')
 
-serial_dep = cpp_linux_serial_proj.dependency('CppLinuxSerial')
+opt_var = cmake.subproject_options()
+opt_var.add_cmake_defines({'BUILD_TESTS': 'OFF'})
+cpp_linux_serial_proj = cmake.subproject('CppLinuxSerial', options: opt_var)
+cpp_linux_serial_dep = cpp_linux_serial_proj.dependency('CppLinuxSerial')
 
 v4l2_dep = libv4l2cpp_proj.dependency('libv4l2cpp')
-deps = [serial_dep,
+deps = [cpp_linux_serial_dep,
         v4l2_dep]
 
 lib = static_library(meson.project_name(), 
@@ -35,8 +34,6 @@ lib = static_library(meson.project_name(),
                      install : true,
                      install_dir: meson.project_name() + '/lib',
 )
-
-
 
 install_subdir(public_include, 
                install_dir: meson.project_name())
@@ -52,5 +49,5 @@ dep = declare_dependency(link_with : lib,
 # Expose the dependencies to the parent project
 meson.override_dependency(meson.project_name(), dep)
 meson.override_dependency('libv4l2cpp', v4l2_dep)
-meson.override_dependency('CppLinuxSerial', serial_dep)
+meson.override_dependency('CppLinuxSerial', cpp_linux_serial_dep)
 
