@@ -17,7 +17,7 @@ The project consists of the two parts - the module and the library. The module i
 ## Documentation
 
 - [Architecture](docs/architecture.md)
-- TBD: Linux library API
+- [Linux Control Library](library/README.md)
 
 ## Hardware
 
