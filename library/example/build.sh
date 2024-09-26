@@ -16,7 +16,7 @@ SCRIPT_ROOT=$(dirname $(readlink -f "$0"))
 SCRIPT_NAME=$(basename "$0")
 
 # *************************************************************************
-pushd $SCRIPT_ROOT/..
+pushd $SCRIPT_ROOT
 
 rm -rf build
 meson setup build
