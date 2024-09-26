@@ -5,7 +5,7 @@
 	path = firmware/lib/universal_faces
 	url = https://github.com/an-dr/universal_faces.git
 [submodule "software/components/CppLinuxSerial"]
-	path = remotion_control/subprojects/CppLinuxSerial
+	path = library/subprojects/CppLinuxSerial
 	url = https://github.com/gbmhunter/CppLinuxSerial.git
 [submodule "software/components/libv4l2cpp"]
 	path = remotion_control/subprojects/libv4l2cpp
@@ -13,3 +13,6 @@
 [submodule "firmware/lib/microlog"]
 	path = firmware/lib/microlog
 	url = https://github.com/an-dr/microlog.git
+[submodule "library/subprojects/libv4l2cpp"]
+	path = library/subprojects/libv4l2cpp
+	url = https://github.com/an-dr/libv4l2cpp.git
