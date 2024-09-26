@@ -66,10 +66,11 @@ class Remotion {
     RemotionStatus getStatus() const;
 
     /// @brief Get video capture buffer size for storing a frame
-    int getVideoCaptureBufferSize();
+    int getVideoCaptureBufferSize(std::string &device, unsigned int format,
+                                  int width, int height, int fps);
 
  private:
-    RemotionError _createVideoCapture(std::string &device, unsigned int format,
+    V4l2Capture* _createVideoCapture(std::string &device, unsigned int format,
                                       int width, int height, int fps);
 
     V4l2Capture *_getVideo();

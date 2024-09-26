@@ -23,9 +23,12 @@ endif
 
 remotion_control_dep = dependency('remotion_control')
 
+# jpeglib dependency
+jpeg_dep = dependency('libjpeg')
 
 deps = [remotion_control_dep,
         ocv_dep,
+        jpeg_dep,
         dependency('CppLinuxSerial'),
         dependency('libv4l2cpp')
         ]
@@ -35,7 +38,6 @@ executable = executable(meson.project_name(),
                      dependencies : deps,
                      include_directories : public_include,
                      install : true,
-                     install_dir: '../install',
-)
+                     install_dir: meson.project_name() + '/bin')
 
 

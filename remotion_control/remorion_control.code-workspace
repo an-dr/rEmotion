@@ -15,7 +15,7 @@
                 "name": "Debug - Example App",
                 "type": "cppdbg",
                 "request": "launch",
-                "program": "example/build/instal/rEmotion_control-example",
+                "program": "${workspaceFolder:remotion_control}/example/build/rEmotion_control-example",
                 "cwd": "${workspaceFolder:remotion_control}",
                 "miDebuggerPath": "gdb",
                 "args": [],
@@ -50,6 +50,7 @@
                     "setup",
                     "build",
                     "--buildtype=debug",
+                    "--prefix=${workspaceFolder}/install"
                 ],
                 "group": {
                     "kind": "build",
@@ -141,7 +142,7 @@
                 "options": {
                     "cwd": "example",
                     "env": {
-                        "DESTDIR": "${workspaceFolder:remotion_control}/example/build/install"
+                        "DESTDIR": "${workspaceFolder:remotion_control}/example/install"
                     }
                 },
                 "problemMatcher": [],

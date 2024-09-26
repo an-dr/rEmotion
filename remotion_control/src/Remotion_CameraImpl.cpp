@@ -19,12 +19,12 @@
 RemotionError Remotion::readVideoFrame(char *out_buffer,
                                        size_t out_buffer_size) {
     if (_videoCapture == nullptr) {
-        auto err = _createVideoCapture(
+        _videoCapture = _createVideoCapture(
             _videoCaptureParams.device, _videoCaptureParams.v4l2_pix_fmt,
             _videoCaptureParams.width, _videoCaptureParams.height,
             _videoCaptureParams.fps);
-        if (err != RemotionError::NO_ERROR) {
-            return err;
+        if (_videoCapture == nullptr) {
+            return RemotionError::ERROR;
         }
     }
 
@@ -46,35 +46,33 @@ RemotionError Remotion::readVideoFrame(char *out_buffer,
     return RemotionError::NO_ERROR;
 }
 
-RemotionError Remotion::_createVideoCapture(std::string &device,
-                                            unsigned int format, int width,
-                                            int height, int fps) {
+V4l2Capture *Remotion::_createVideoCapture(std::string &device,
+                                           unsigned int format, int width,
+                                           int height, int fps) {
     V4L2DeviceParameters param(device.c_str(), format, width, height, fps);
-    _videoCapture = V4l2Capture::create(param);
-    if (_videoCapture == NULL) {
-        return RemotionError::ERROR_OPEN_PORT;
-    }
-    return RemotionError::NO_ERROR;
+    auto new_obj = V4l2Capture::create(param);
+    return new_obj;
 }
 
 V4l2Capture *Remotion::_getVideo() {
     if (_videoCapture == nullptr) {
-        auto err = _createVideoCapture(
+        _videoCapture = _createVideoCapture(
             _videoCaptureParams.device, _videoCaptureParams.v4l2_pix_fmt,
             _videoCaptureParams.width, _videoCaptureParams.height,
             _videoCaptureParams.fps);
-        if (err != RemotionError::NO_ERROR) {
-            return nullptr;
-        }
     }
     return _videoCapture;
 }
 
-int Remotion::getVideoCaptureBufferSize() {
-    auto v = _getVideo();
+int Remotion::getVideoCaptureBufferSize(std::string &device,
+                                        unsigned int format, int width,
+                                        int height, int fps) {
+    auto v = _createVideoCapture(device, format, width, height, fps);
     if (v == nullptr) {
         return -1;
     } else {
-        return v->getBufferSize();
+        auto sz = v->getBufferSize();
+        delete v;
+        return sz;
     }
 }

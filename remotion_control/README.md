@@ -14,6 +14,12 @@ Based on the format you might need different conversions in order to display the
 
 ## Requirements
 
+Foe example, to build the library you need the following packages:
+
+- libopencv-dev
+- libv4l-dev
+- libjpeg-dev
+
 For tests:
 
 - libgtest-dev
