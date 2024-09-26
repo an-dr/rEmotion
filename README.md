@@ -1,7 +1,5 @@
 # rEmotion
 
-[![abcmake](https://img.shields.io/badge/uses-abcmake-blue)](https://github.com/an-dr/abcmake)
-
 rEmotion is a hardware module with a robotic application in mind. The module represents a head with a display and a camera alowing a robot to see the environment and express facial emotions.
 
 ![main](docs/README/remotion.jpg)
@@ -17,7 +15,7 @@ The project consists of the two parts - the module and the library. The module i
 ## Documentation
 
 - [Architecture](docs/architecture.md)
-- TBD: Linux library API
+- [Linux Control Library](library/README.md)
 
 ## Hardware
 

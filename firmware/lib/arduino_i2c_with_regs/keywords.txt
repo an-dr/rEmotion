@@ -1,0 +1,16 @@
+# Syntax Coloring Map For ExampleLibrary
+
+# Datatypes (KEYWORD1)
+VirtualRegs    KEYWORD1
+I2cWithRegs    KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+Init KEYWORD2
+SetEvents KEYWORD2
+Set KEYWORD2
+Get KEYWORD2
+Print KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)

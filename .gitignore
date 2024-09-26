@@ -65,3 +65,5 @@ schematic/rEmotion-backups
 *.lck
 \#auto_saved_files\#
 *.kicad_sch-bak
+
+img.jpg
