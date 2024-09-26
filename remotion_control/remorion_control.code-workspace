@@ -2,11 +2,9 @@
     "folders": [
         {
             "path": ".",
-            "name": "software"
         },
         {
             "path": "..",
-            "name": "rEmorion"
         }
     ],
     "settings": {},
@@ -17,8 +15,8 @@
                 "name": "Debug - Example App",
                 "type": "cppdbg",
                 "request": "launch",
-                "program": "${workspaceFolder:software}/example/install/remotion_demo_app",
-                "cwd": "${workspaceFolder:software}",
+                "program": "example/build/instal/rEmotion_control-example",
+                "cwd": "${workspaceFolder:remotion_control}",
                 "miDebuggerPath": "gdb",
                 "args": [],
                 "stopAtEntry": false,
@@ -33,7 +31,7 @@
                 "environment": [
                     {
                         "name": "GTK_PATH",
-                        "value": ""
+                        "value": "",
                     }
                 ]
             }
@@ -43,17 +41,45 @@
     "tasks": {
         "version": "2.0.0",
         "tasks": [
+            
+            {
+                "label": "Configure",
+                "type": "shell",
+                "command": "meson",
+                "args": [
+                    "setup",
+                    "build",
+                    "--buildtype=debug",
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "options": {
+                    "cwd": "example",
+                },
+                "problemMatcher": [],
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared",
+                    "showReuseMessage": true,
+                    "clear": false
+                },
+            },
             // Cmake build
             {
                 "label": "Build",
                 "type": "shell",
-                "command": "cmake",
+                "command": "meson",
                 "args": [
-                    "--build",
+                    "compile",
+                    "-C",
                     "build"
                 ],
                 "options": {
-                    "cwd": "${input:Project}"
+                    "cwd": "example"
                 },
                 "group": {
                     "kind": "build",
@@ -70,54 +96,23 @@
                 },
                 "dependsOn": "Configure"
             },
-            {
-                "label": "Configure",
-                "type": "shell",
-                "command": "cmake",
-                "args": [
-                    "-G",
-                    "Ninja",
-                    "-B",
-                    "build",
-                    "-DCMAKE_BUILD_TYPE=${input:Build}",
-                ],
-                "group": {
-                    "kind": "build",
-                    "isDefault": true
-                },
-                "options": {
-                    "cwd": "${input:Project}",
-                    "env": {
-                        "ABCMAKE_EMOJI": "1"
-                    }
-                },
-                "problemMatcher": [],
-                "presentation": {
-                    "echo": true,
-                    "reveal": "always",
-                    "focus": false,
-                    "panel": "shared",
-                    "showReuseMessage": true,
-                    "clear": false
-                },
-            },
             // Cmake clean
             {
                 "label": "Clean",
                 "type": "shell",
-                "command": "cmake",
+                "command": "meson",
                 "args": [
-                    "--build",
-                    "build",
-                    "--target",
-                    "clean"
+                    "compile",
+                    "clean",
+                    "-C",
+                    "build"
                 ],
                 "group": {
                     "kind": "build",
                     "isDefault": true
                 },
                 "options": {
-                    "cwd": "${input:Project}"
+                    "cwd": "example"
                 },
                 "problemMatcher": [],
                 "presentation": {
@@ -129,72 +124,37 @@
                     "clear": false
                 },
             },
-            // Install to workspace/install
+            // Cmake install
             {
                 "label": "Install",
                 "type": "shell",
-                "command": "cmake",
+                "command": "meson",
                 "args": [
-                    "--install",
-                    "build",
+                    "install",
+                    "-C",
+                    "build"
                 ],
-                "options": {
-                    "cwd": "${input:Project}"
-                },
                 "group": {
                     "kind": "build",
                     "isDefault": true
                 },
-                "problemMatcher": [],
-                "dependsOn": "Build"
-            },
-            {
-                "label": "Test",
-                "type": "shell",
-                "command": "ctest",
                 "options": {
-                    "cwd": "${workspaceFolder}/build"
-                },
-                "group": {
-                    "kind": "build",
-                    "isDefault": true
+                    "cwd": "example",
+                    "env": {
+                        "DESTDIR": "${workspaceFolder:remotion_control}/example/build/install"
+                    }
                 },
                 "problemMatcher": [],
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared",
+                    "showReuseMessage": true,
+                    "clear": false
+                },
                 "dependsOn": "Build"
-            }
-        ],
-        "inputs": [
-            {
-                "type": "pickString",
-                "id": "Project",
-                "description": "What to build",
-                "default": ".",
-                "options": [
-                    {
-                        "value": "${workspaceFolder}/example",
-                        "label": "Example Application"
-                    },
-                    {
-                        "value": "${workspaceFolder}",
-                        "label": "Library"
-                    }
-                ]
             },
-            {
-                "type": "pickString",
-                "id": "Build",
-                "description": "Select build type",
-                "default": "Debug",
-                "options": [
-                    {
-                        "value": "Debug",
-                    },
-                    {
-                        "value": "Release",
-                    }
-                ]
-            }
-
         ]
     }
 }

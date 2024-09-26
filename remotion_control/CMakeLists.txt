@@ -18,7 +18,6 @@ set(BUILD_TESTS
 # Add abcmake
 include(ab.cmake)
 
-
 add_component(${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PRIVATE CppLinuxSerial::CppLinuxSerial)
 target_link_libraries(${PROJECT_NAME} PRIVATE libv4l2cpp)

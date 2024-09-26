@@ -16,7 +16,7 @@
 # *************************************************************************
 
 set(ABCMAKE_VERSION_MAJOR 6)
-set(ABCMAKE_VERSION_MINOR 0)
+set(ABCMAKE_VERSION_MINOR 1)
 set(ABCMAKE_VERSION_PATCH 0)
 set(ABCMAKE_VERSION "${ABCMAKE_VERSION_MAJOR}.${ABCMAKE_VERSION_MINOR}.${ABCMAKE_VERSION_PATCH}")
 
@@ -101,6 +101,8 @@ set(_ABCMAKE_PROP_INSTALL_DIR "INSTALL_DIR") # The directory where the project w
 set(ABCMAKE_DIRPROP_VERSION "VERSION") # The abcmake version of the component
 set(ABCMAKE_DIRPROP_COMPONENT_NAME "COMPONENT_NAME") # The name of the component (local PROJECT_NAME)
 set(ABCMAKE_DIRPROP_TARGETS "TARGETS") # The list of targets built by the component
+set(ABCMAKE_DIRPROP_SRC "COMPONENT_SRC") # The list of source directories
+set(ABCMAKE_DIRPROP_INCLUDE "COMPONENT_INCLUDE") # The list of include directories
 
 # Default values
 set(_ABCMAKE_DEFAULT_COMPONENTS_DIR "components")
@@ -114,23 +116,23 @@ set(_ABCMAKE_DEFAULT_INSTALL_DIR "${CMAKE_BINARY_DIR}/../install")
 
 function(_abcmake_set_prop PROPERTY_NAME PROPERTY_VALUE)
     set_property(GLOBAL PROPERTY 
-                 ${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME} ${PROPERTY_VALUE})
+                 "${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME}" "${PROPERTY_VALUE}")
 endfunction()
 
 function(_abcmake_append_prop PROPERTY_NAME PROPERTY_VALUE)
     set_property(GLOBAL APPEND PROPERTY 
-                 ${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME} ${PROPERTY_VALUE})
+                 "${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME}" "${PROPERTY_VALUE}")
 endfunction()
 
 function(_abcmake_set_prop_curdir PROPERTY_NAME PROPERTY_VALUE)
     set_directory_properties(PROPERTIES
-                             ${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME} ${PROPERTY_VALUE})
+                             "${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME}" "${PROPERTY_VALUE}")
 endfunction()
 
 function(_abcmake_append_prop_curdir PROPERTY_NAME PROPERTY_VALUE)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} 
                  APPEND PROPERTY 
-                 ${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME} ${PROPERTY_VALUE})
+                 "${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME}" "${PROPERTY_VALUE}")
 endfunction()
 
 
@@ -162,6 +164,7 @@ function(_abcmake_get_prop PROPERTY_NAME OUT_VAR_NAME)
 endfunction()
 
 function(_abcmake_get_prop_dir DIRECTORY PROPERTY_NAME OUT_VAR_NAME)
+    message(DEBUG "[_abcmake_get_prop_dir] Getting property ${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME} from ${DIRECTORY}")
     get_directory_property(tmp_result DIRECTORY ${DIRECTORY}
         ${ABCMAKE_PROPERTY_PREFIX}${PROPERTY_NAME})
     set(${OUT_VAR_NAME} ${tmp_result} PARENT_SCOPE)
@@ -206,7 +209,7 @@ function(_abcmake_add_subdirectory PATH)
 
     # ABCMAKE_ADDED_PROJECTS is an interface, it may break compatibility if changed!
     _abcmake_get_prop(${ABCMAKE_PROP_ADDED_PROJECTS} projects)
-    message(DEBUG "Added projects: ${projects}")
+    message(DEBUG "[_abcmake_add_subdirectory] Added projects: ${projects}")
     
     # Resolve relative path
     get_filename_component(PATH "${PATH}" ABSOLUTE)
@@ -217,7 +220,7 @@ function(_abcmake_add_subdirectory PATH)
         
         # Use the last directory name for a binary directory name 
         get_filename_component(last_dir "${PATH}" NAME)
-        add_subdirectory(${PATH} abc_${last_dir})
+        add_subdirectory(${PATH} abc_${last_dir} EXCLUDE_FROM_ALL)
     endif()
     
 endfunction()
@@ -233,7 +236,7 @@ function(_abcmake_add_project PATH OUT_ABCMAKE_VER)
         return()
     endif()
 
-    message(DEBUG "Adding project ${PATH}")
+    message(DEBUG "[_abcmake_add_project] Adding project ${PATH}")
     _abcmake_add_subdirectory(${PATH})
     
     _abcmake_get_prop_dir(${PATH} "VERSION" version)
@@ -255,7 +258,7 @@ endfunction()
 # add_component.cmake ==========================================================
 
 include(CMakeParseArguments)
-set(ABC_INSTALL_LIB_SUBDIR "lib")
+set(ABC_INSTALL_LIB_SUBDIR ".")
 set(ABC_INSTALL_EXE_SUBDIR ".")
 
 # Add all projects from the components subdirectory
@@ -284,7 +287,7 @@ endfunction()
 # @param TARGETNAME - name of the target to add sources
 function(target_sources_directory TARGETNAME SOURCE_DIR)
     file(GLOB_RECURSE SOURCES "${SOURCE_DIR}/*.cpp" "${SOURCE_DIR}/*.c")
-    message( DEBUG "${TARGETNAME} sources: ${SOURCES}")
+    message( DEBUG "[target_sources_directory] ${TARGETNAME} sources: ${SOURCES}")
     target_sources(${TARGETNAME} PRIVATE ${SOURCES})
 endfunction()
 
@@ -296,7 +299,14 @@ function(_abcmake_target_install TARGETNAME DESTINATION)
     _abcmake_get_install(install_dir)
     set (CMAKE_INSTALL_PREFIX ${install_dir}
          CACHE PATH "default install path" FORCE)
+    message(DEBUG "[_abcmake_target_install] Install target: ${TARGETNAME}")
     install(TARGETS ${TARGETNAME} DESTINATION ${DESTINATION})
+    
+    # install include directories
+    _abcmake_get_prop_dir(${CMAKE_CURRENT_SOURCE_DIR} ${ABCMAKE_DIRPROP_INCLUDE} include_dir)
+    message(DEBUG "[_abcmake_target_install] Install include: ${include_dir}")
+    install(DIRECTORY ${include_dir} DESTINATION ${DESTINATION})
+    
 endfunction()
 
 
@@ -322,11 +332,11 @@ function(_abcmake_target_init TARGETNAME)
     cmake_parse_arguments(arg "${flags}" "${args}" "${listArgs}" ${ARGN})
 
     if (NOT arg_SOURCE_DIR)
-        set(arg_SOURCE_DIR "src")
+        set(arg_SOURCE_DIR "src")  # TODO: replace with _abcmake_get_src?
     endif()
 
     if (NOT arg_INCLUDE_DIR)
-        set(arg_INCLUDE_DIR "include")
+        set(arg_INCLUDE_DIR "include")  # TODO: replace with _abcmake_get_include?
     endif()
 
     _abcmake_count_parents(parents_num)
@@ -371,7 +381,20 @@ function(add_main_component TARGETNAME)
     
     if (NOT arg_INCLUDE_DIR)
         _abcmake_get_include(arg_INCLUDE_DIR)
+        if (EXISTS "include")
+            set(arg_INCLUDE_DIR "include")
+        else()
+            set(arg_INCLUDE_DIR "")
+        endif()
     endif()
+    
+    message(DEBUG "[add_main_component] TARGETNAME: ${TARGETNAME}")
+    message(DEBUG "[add_main_component] INCLUDE_DIR: ${arg_INCLUDE_DIR}")
+    message(DEBUG "[add_main_component] SOURCE_DIR: ${arg_SOURCE_DIR}")
+    
+    # Set Component Src and Include
+    _abcmake_set_prop_curdir("${ABCMAKE_DIRPROP_SRC}" "${arg_SOURCE_DIR}")
+    _abcmake_set_prop_curdir("${ABCMAKE_DIRPROP_INCLUDE}" "${arg_INCLUDE_DIR}")
     
     add_executable(${TARGETNAME})
     _abcmake_target_init(${TARGETNAME} 
@@ -390,14 +413,18 @@ function(add_component TARGETNAME)
     set(args)
     set(listArgs INCLUDE_DIR SOURCE_DIR)
     cmake_parse_arguments(arg "${flags}" "${args}" "${listArgs}" ${ARGN})
-    message(DEBUG "add_component: ${TARGETNAME}")
-
+    
     if (NOT arg_SOURCE_DIR)
         _abcmake_get_src(arg_SOURCE_DIR)
     endif()
 
     if (NOT arg_INCLUDE_DIR)
         _abcmake_get_include(arg_INCLUDE_DIR)
+        if (EXISTS "include")
+            set(arg_INCLUDE_DIR "include")
+        else()
+            set(arg_INCLUDE_DIR "")
+        endif()
     endif()
 
     if (arg_SHARED)
@@ -405,6 +432,15 @@ function(add_component TARGETNAME)
     else()
         add_library(${TARGETNAME} STATIC)
     endif()
+    
+    message(DEBUG "[add_component] TARGETNAME: ${TARGETNAME}")
+    message(DEBUG "[add_component] INCLUDE_DIR: ${arg_INCLUDE_DIR}")
+    message(DEBUG "[add_component] SOURCE_DIR: ${arg_SOURCE_DIR}")
+    message(DEBUG "[add_component] SHARED: ${arg_SHARED}")
+    
+    # Set Component Src and Include
+    _abcmake_set_prop_curdir("${ABCMAKE_DIRPROP_SRC}" "${arg_SOURCE_DIR}")
+    _abcmake_set_prop_curdir("${ABCMAKE_DIRPROP_INCLUDE}" "${arg_INCLUDE_DIR}")
     
     _abcmake_target_init(${TARGETNAME} 
                          INCLUDE_DIR ${arg_INCLUDE_DIR} 
@@ -426,7 +462,7 @@ set(__ABCMAKE_COMPONENT_REGISTRY_SEPARATOR "::::")
 function(register_components PATH)
 
     foreach(path ${ARGV})
-        message(DEBUG "  📂 Path: ${path}")
+        message(DEBUG "[register_components] 📂 Path: ${path}")
         _abcmake_add_project(${path} PROJECT_ABCMAKE_VER)
         if(PROJECT_ABCMAKE_VER)
             _abcmake_get_prop_dir(${path} ${ABCMAKE_DIRPROP_COMPONENT_NAME} component_name)
@@ -458,7 +494,7 @@ endfunction()
 # Gets the path of a component from the registry. Returns null if not found.
 function (_abcmake_get_from_registry COMPONENT_NAME OUT_PATH)
     _abcmake_get_prop(${ABCMAKE_PROP_COMPONENT_REGISTRY} registry)
-    message(DEBUG "Get ${COMPONENT_NAME} from : ${registry}")
+    message(DEBUG "[_abcmake_get_from_registry] Get ${COMPONENT_NAME} from : ${registry}")
     foreach(entry ${registry})
         _split_component_entry(${entry} name path)
         if(name STREQUAL COMPONENT_NAME)
@@ -508,8 +544,8 @@ function (_abcmake_target_link_components PROCESS_LEVEL TARGETNAME)
     set(listArgs PATH NAME)
     cmake_parse_arguments(arg "${flags}" "${args}" "${listArgs}" ${ARGN})
     
-    message(DEBUG "_abcmake_target_link_components arg_PATH: ${arg_PATH}")
-    message(DEBUG "_abcmake_target_link_components arg_NAME: ${arg_NAME}")
+    message(DEBUG "[_abcmake_target_link_components] arg_PATH: ${arg_PATH}")
+    message(DEBUG "[_abcmake_target_link_components] arg_NAME: ${arg_NAME}")
     
     # Link components by path
     foreach(PATH ${arg_PATH})
@@ -543,4 +579,3 @@ endfunction()
 
 # target_link_components.cmake =================================================
 # ==============================================================================
-
